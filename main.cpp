@@ -23,13 +23,14 @@ int main() {
 
     cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl << "2) Czasownik" << endl
     << "3) Przymiotnik" << endl << "4) Wyjscie z programu" << endl;
+
     do {
     cin >> mode;
     if (mode < 1 || mode > 4)
         cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
     } while (mode < 1 || mode > 4);
-
     cout << endl;
+
     switch (mode) {
     case 1:
         Nomen(/*i, j, maxnum, randy[0], source, answer, ans*/);
@@ -52,7 +53,7 @@ int main() {
     return 0;
 }
 
-void Nomen(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream &answer, string &ans*/) {
+void Nomen(/*int &i, int &j, int &maxnum, int randy[0], fstream &source, fstream &answer, string &ans*/) {
     struct word {
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
@@ -63,13 +64,14 @@ void Nomen(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream 
     int mode;
     bool rand_file = false;
 
-    cout << "Wybierz zakres slownictwa:" << endl << "1)Wszystko" << endl << "2)Ogolne" << endl << "3)Czesci ciala" << endl << "4)Ubrania" << endl;
+    cout << "Wybierz zakres slownictwa:" << endl << "1) Wszystko" << endl << "2) Ogolne" << endl << "3) Czesci ciala"
+    << endl << "4) Ubrania" << endl;
+
     do {
         cin >> mode;
         if (mode < 1 || mode > 4)
             cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
         } while (mode < 1 || mode > 4);
-
         cout << endl;
 
         switch (mode) { //opening file
@@ -98,7 +100,7 @@ void Nomen(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream 
             exit(0);
         }
 
-        //counting amount of words
+        //file contents check (amount of words)
         while (getline(source, ans))
             maxnum++;
 
@@ -113,8 +115,9 @@ void Nomen(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream 
     for (i = 0; i < BUFF; i++) {
 
         if (rand_file) {
-           mode = rand() % 4 + 1;   //drawing random file
-            cout << mode;
+           do {
+                mode = rand() % 4 + 1;   //drawing random file
+           } while (mode == 1);
 
            switch (mode) { //opening file
         case 2:
@@ -137,7 +140,7 @@ void Nomen(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream 
                 exit(0);
             }
 
-            //counting amount of words
+            //file contents check (amount of words)
             while (getline(source, ans))
                 maxnum++;
 
