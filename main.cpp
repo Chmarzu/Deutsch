@@ -8,21 +8,20 @@
 
 using namespace std;
 
-void Nomen(/*int i, int j, int maxnum, int randy[0], fstream source, fstream answer, string ans*/);
-void Verb(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream &answer, string &ans*/);
-void Adjektiv(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream &answer, string &ans*/);
+void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 
 int main() {
     srand (time(NULL));
     int mode;
-    /*
-    int i, j, maxnum = 0/*weird init bug, randy[BUFF];
+
+    int i, j, maxnum = 0/*weird init bug*/, randy[BUFF];
     fstream source, answer;
     string ans;
-    */
 
-    cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl << "2) Czasownik" << endl
-    << "3) Przymiotnik" << endl << "4) Wyjscie z programu" << endl;
+    cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl /*<< "2) Czasownik" << endl
+    << "3) Przymiotnik" << endl*/ << "4) Wyjscie z programu" << endl;
 
     do {
     cin >> mode;
@@ -33,15 +32,15 @@ int main() {
 
     switch (mode) {
     case 1:
-        Nomen(/*i, j, maxnum, randy[0], source, answer, ans*/);
+        Nomen(i, j, mode, maxnum, &randy[0], source, answer, ans);
         break;
 
     case 2:
-        Verb();
+        Verb(i, j, mode, maxnum, &randy[0], source, answer, ans);
         break;
 
     case 3:
-        Adjektiv();
+        Adjektiv(i, j, mode, maxnum, &randy[0], source, answer, ans);
         break;
 
     case 4:
@@ -53,15 +52,10 @@ int main() {
     return 0;
 }
 
-void Nomen(/*int &i, int &j, int &maxnum, int randy[0], fstream &source, fstream &answer, string &ans*/) {
+void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
     struct word {
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
-
-    int i, j, maxnum = 0/*weird init bug*/, randy[BUFF];
-    fstream source, answer;
-    string ans;
-    int mode;
     bool rand_file = false;
 
     cout << "Wybierz zakres slownictwa:" << endl << "1) Wszystko" << endl << "2) Ogolne" << endl << "3) Czesci ciala"
@@ -226,9 +220,9 @@ void Nomen(/*int &i, int &j, int &maxnum, int randy[0], fstream &source, fstream
     answer.close();
 }
 
-void Verb(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream &answer, string &ans*/) {
+void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
 
 }
-void Adjektiv(/*int &i, int &j, int &maxnum,int randy[0], fstream &source, fstream &answer, string &ans*/) {
+void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
 
 }
