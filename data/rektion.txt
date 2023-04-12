@@ -1,0 +1,238 @@
+{
+-
+aufpassen
+auf
+A
+uważać na
+}
+{
+sich
+freuen
+auf
+A
+cieszyć się na
+}
+{
+-
+warten
+auf
+A
+czekać na
+}
+{
+-
+denken
+an
+A
+myśleć o
+}
+{
+-
+glauben
+an
+A
+wierzyć w
+}
+{
+-
+fragen
+nach
+D
+pytać o
+}
+{
+-
+suchen
+nach
+D
+szukać
+}
+{
+sich
+interessieren
+fur
+A
+interesować się
+}
+{
+-
+brauchen
+fur
+A
+potrzebować
+}
+{
+sich
+entschuldigen
+fur
+A
+przepraszać za
+}
+{
+-
+anrufen
+bei
+D
+prosić kogoś
+}
+{
+sich
+bewerben
+bei
+D
+ubiegać się o
+}
+{
+-
+arbeiten
+bei
+D
+pracować u
+}
+{
+-
+informieren
+bei
+D
+informować kogoś
+}
+{
+sich
+entschuldigen
+bei
+D
+przepraszać kogoś
+}
+{
+-
+spielen
+mit
+D
+grać z
+}
+{
+-
+telefonieren
+mit
+D
+dzwonić do
+}
+{
+-
+sprechen
+mit
+D
+rozmawiać z
+}
+{
+-
+vergleichen
+mit
+D
+porównywać z
+}
+{
+-
+einverstanden sein
+mit
+D
+zgadzać się na
+}
+{
+-
+aufhören
+mit
+D
+kończyć z
+}
+{
+-
+diskutieren
+uber
+A
+dyskutować o
+}
+{
+-
+erzählen
+uber
+A
+opowiadać o
+}
+{
+sich
+freuen
+uber
+A
+cieszyć się z
+}
+{
+-
+lachen
+uber
+A
+śmiać się z
+}
+{
+-
+nachdenken
+uber
+A
+myśleć nad
+}
+{
+-
+schreiben
+uber
+A
+pisać o
+}
+{
+-
+weinen
+uber
+A
+płakać nad
+}
+{
+-
+wissen
+uber
+A
+wiedzieć o
+}
+{
+sich
+ärgern
+uber
+A
+denerwować się o
+}
+{
+sich
+beschweren
+uber
+A
+skarżyć się na
+}
+{
+sich
+aufregen
+uber
+A
+denerwować się o
+}
+{
+-
+sprechen
+uber
+A
+rozmawiać o
+}
+{
+(sich)
+informieren
+uber
+A
+informować (się) o
+}
