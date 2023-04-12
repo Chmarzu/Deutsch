@@ -160,21 +160,17 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
             break;
         }
 
-        //do {  //anti-duplication module -- not working
-        randy[i] = rand() % maxnum / 3 + 1;
-        /*cout << randy[i] << " ";
+        do {
+        randy[i] = rand() % maxnum / 6 + 1;
 
-        if (i > 0)
-            for (j = 0; j < BUFF; j++) {
-                if (randy[i] == randy[j]) {
+        if (i > 0 && rand_file == false) {
+            for (j = 0; j < i; j++) {
+                if (randy[i] == randy[j])
                     break;
-                }
             }
-        else
+        } else
             break;
-        cout << j << endl;
-        Sleep(1000);
-        } while (j < BUFF);*/
+        } while (j < i);
 
 
         for (j = 0; j < randy[i]; j++) {
