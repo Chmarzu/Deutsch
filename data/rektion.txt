@@ -35,6 +35,13 @@ wierzyć w
 }
 {
 -
+teilnehmen
+an
+D
+uczestniczyć
+}
+{
+-
 fragen
 nach
 D
