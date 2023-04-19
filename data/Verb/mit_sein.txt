@@ -13,9 +13,58 @@ s
 podróżować
 }
 {
+wandern
+-
+gewandert
+s
+wędrować
+}
+{
+segeln
+-
+gesegelt
+s
+żeglować
+}
+{
+aufwachen
+-
+aufgewacht
+s
+budzić się
+}
+{
+passieren
+-
+passiert
+s
+dziać się, wydarzać się
+}
+{
+spazieren
+-
+spaziert
+s
+spacerować
+}
+{
+begegnen
+-
+begegnet
+s
+spotykać, traktować
+}
+{
+erkranken
+-
+erkrankt
+s
+zachorować
+}
+{
 
 -
 
-
+s
 
 }
