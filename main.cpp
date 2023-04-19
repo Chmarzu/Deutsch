@@ -21,8 +21,8 @@ int main() {
     fstream source, answer;
     string ans;
 
-    cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl /*<< "2) Czasownik" << endl
-    << "3) Przymiotnik" << endl*/ << "4) Rekcja" << endl << "5) Wyjscie z programu" << endl;
+    cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl << "2) Czasownik" << endl
+    /*<< "3) Przymiotnik" << endl*/ << "4) Rekcja" << endl << "5) Wyjscie z programu" << endl;
 
     do {
     cin >> mode;
@@ -223,7 +223,89 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
     struct word {
         string infinitiv, imperfekt, partizip_perfekt, hilfsverb, transl;
     } buffer[BUFF];
-    bool rand_file = false;
+    string ans2;
+
+    source.open("data\\Verb\\mit_sein.txt",ios::in);
+
+    //file crash test
+    if(source.good() == false) {
+        cout << "Error! Source file doesn't exist!";
+        getchar();
+        exit(0);
+    }
+
+    //file contents check (amount of words)
+    while (getline(source, ans))
+        maxnum++;
+
+    if (maxnum % 7 >= 1) {
+        cout << "Error! Incorrect data file content!";
+        getchar();
+        exit(0);
+    }
+
+    //drawing word
+    for (i = 0; i < BUFF; i++) {
+        source.close();
+        source.open("data\\Verb\\mit_sein.txt",ios::in);
+
+        do {
+        randy[i] = rand() % maxnum / 7 + 1;
+
+        if (i > 0) {
+            for (j = 0; j < i; j++) {
+                if (randy[i] == randy[j])
+                    break;
+            }
+        } else
+            break;
+        } while (j < i);
+
+
+        for (j = 0; j < randy[i]; j++) {
+            getline(source, ans);
+            getline(source, buffer[i].infinitiv);
+            getline(source, buffer[i].imperfekt);
+            getline(source, buffer[i].partizip_perfekt);
+            getline(source, buffer[i].hilfsverb);
+            getline(source, buffer[i].transl);
+            getline(source, ans);
+        }
+    }
+
+    //user interface
+    answer.open("program.txt",ios::out);
+    for (i = 0; i < BUFF; i++)
+        answer << buffer[i].infinitiv << " - " << buffer[i].transl << endl;
+
+    cout << "Jesli chcesz opuscic program wprowadz: 0" << endl;
+    cout << "Podaj wlasciwa forme Partizip II a nastepnie czasownik pomocniczy (h lub s):" << endl << endl;
+
+    for (i = 0; i < BUFF; i++) {
+        for (j = 0; j < 2; j++) {
+            cout << i + 1 << "." << endl;
+            cin >> ans;
+            cin >> ans2;
+
+            if (ans.compare("0") == 0) {    //immediate exit
+                cout << "Czy na pewno chcesz zamknac program?" << endl << "(Jesli tak ponownie wprowadz: 0)" << endl;
+                cin >> ans;
+                if (ans.compare("0") == 0)
+                    exit(0);
+            } else if (buffer[i].partizip_perfekt.compare(ans) == 1 || buffer[i].hilfsverb.compare(ans2) == 1)
+                cout << endl << "Bledna odpowiedz!" << endl << endl;
+            else if (buffer[i].partizip_perfekt.compare(ans) == 0 || buffer[i].hilfsverb.compare(ans2) == 0)
+                break;
+        }
+
+        if (j == 2)
+            cout << "Prawidlowa odpowiedz to: " << buffer[i].partizip_perfekt << " + " << buffer[i].hilfsverb;
+
+        cout << endl;
+    }
+
+    source.close();
+    answer.close();
 
 
 }
@@ -297,7 +379,6 @@ void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fs
     cout << "Podaj wlasciwy przyimek a nastepnie przypadek (D lub A):" << endl << endl;
 
     for (i = 0; i < BUFF; i++) {
-
         for (j = 0; j < 2; j++) {
             cout << i + 1 << "." << endl;
             cin >> ans;
