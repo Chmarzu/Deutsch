@@ -129,12 +129,82 @@ ein/um/aussteigen
 -
 umgestiegen
 s
-
+w/prze/wy-siadać (się)
 }
 {
-
+ein/um/ausziehen
 -
-
+eingezogen
 s
-
+w/prze/wy-prowadzać się
+}
+{
+werden
+-
+geworden
+s
+stawać się
+}
+{
+bleiben
+-
+geblieben
+s
+zostawać
+}
+{
+sterben
+-
+gestorben
+s
+umierać
+}
+{
+fallen
+-
+gefallen
+s
+spadać
+}
+{
+fliehen
+-
+geflohen
+s
+uciekać
+}
+{
+gelingen
+-
+gelungen
+s
+udać się, powieść się
+}
+{
+geschehen
+-
+geschehen
+s
+stać się, wydarzyć się
+}
+{
+treten
+-
+getreten
+s
+kopać (kogoś), naciskać
+}
+{
+rennen
+-
+gerannt
+s
+pędzić, wpadać
+}
+{
+springen
+-
+gesprungen
+s
+skakać
 }
