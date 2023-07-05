@@ -15,9 +15,7 @@ void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fs
 
 int main() {
     srand (time(NULL));
-    int mode;
-
-    int i, j, maxnum = 0/*weird init bug*/, randy[BUFF];
+    int mode, i, j, maxnum, randy[BUFF];
     fstream source, answer;
     string ans;
 
@@ -26,6 +24,7 @@ int main() {
 
     do {
     cin >> mode;
+
     if (mode < 1 || mode > 5)
         cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
     } while (mode < 1 || mode > 5);
@@ -50,7 +49,6 @@ int main() {
     case 5:
         cout << "Do nastepnego razu!";
         exit(0);
-        break;
     }
 
     return 0;
@@ -67,6 +65,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
     do {
         cin >> mode;
+
         if (mode < 1 || mode > 4)
             cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
         } while (mode < 1 || mode > 4);
@@ -90,7 +89,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
             break;
         }
 
-    if (!rand_file) {
+    if (!rand_file) {   //for non-random file
         //file crash test
         if(source.good() == false) {
             cout << "Error! Source file doesn't exist!";
@@ -109,12 +108,12 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
         }
     }
 
-    //drawing word
+    //drawing a record
     for (i = 0; i < BUFF; i++) {
 
-        if (rand_file) {
+        if (rand_file) {    //for random file
            do {
-                mode = rand() % 4 + 1;   //drawing random file
+                mode = rand() % 4 + 1;   //drawing a random file
            } while (mode == 1);
 
            switch (mode) { //opening file
@@ -165,9 +164,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
         }
 
         do {
-        randy[i] = rand() % maxnum / 6 + 1;
+        randy[i] = rand() % maxnum / 6 + 1; //drawing a random number
 
-        if (i > 0 && rand_file == false) {
+        if (i > 0 && rand_file == false) {  //duplicate check
             for (j = 0; j < i; j++) {
                 if (randy[i] == randy[j])
                     break;
