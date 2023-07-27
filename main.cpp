@@ -4,12 +4,13 @@
 #include <ctime>
 #include <string>
 //#include <windows.h>
-#define BUFF 3
+#define BUFF 10
+#define NomenFilesNum 6 //number of files for function Nomen + 1
 
 using namespace std;
 
 void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans);
-void Nomen_options(int i, int j, bool *opt);
+void Nomen_options(int i, int j, int mode, bool *opt);
 void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans);
 void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans);
 void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans);
@@ -59,39 +60,74 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
     struct word {
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
-    bool rand_file = false, opt[4];
-
-    cout << "Ustawienia: 0" << endl << endl;
-
-    cout << "Wybierz zakres slownictwa:" << endl << "1) Wszystko" << endl << "2) Ogolne" << endl << "3) Czesci ciala"
-    << endl << "4) Ubrania" << endl;
+    bool rand_file = false, opt[4] = {false, true, true, true};
 
     do {
-        cin >> mode;
+        cout << endl << "Ustawienia: 0" << endl << endl;
 
+        cout << "Wybierz zakres slownictwa:";
+        for (i = 0; i < NomenFilesNum; i++) {
+        cout << endl << i+1 << ") ";
+            switch (i) {
+                case 0:
+                    cout << "Wszystko";
+                    break;
+
+                case 1:
+                    cout << "Kartka pocztowa";
+                    break;
+
+                case 2:
+                    cout << "Ludzie (ogolne)";
+                    break;
+
+                case 3:
+                    cout << "Ogolne";
+                    break;
+
+                case 4:
+                    cout << "Czesci ciala";
+                    break;
+
+                case 5:
+                    cout << "Ubrania";
+                    break;
+            }
+        }
+        cout << endl;
+
+        cin >> mode;
         if (!mode)
-            Nomen_options(i, j, &opt[0]);
-        else if (mode < 1 || mode > 4)
+            Nomen_options(i, j, mode, &opt[0]);
+        else if (mode < 1 || mode > NomenFilesNum)
             cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
-        } while (mode < 1 || mode > 4);
+        } while (mode < 1 || mode > NomenFilesNum);
         cout << endl;
 
         switch (mode) { //opening file
-        case 1:
-            rand_file = true;
-            break;
+            case 1:
+                rand_file = true;
+                break;
 
-        case 2:
-            source.open("data\\Nomen\\plik.txt",ios::in);
-            break;
+            case 2:
+                source.open("data\\Nomen\\Postkarte.txt",ios::in);
+                break;
 
-        case 3:
-            source.open("data\\Nomen\\body.txt",ios::in);
-            break;
+            case 3:
+                source.open("data\\Nomen\\Leute.txt",ios::in);
+                break;
 
-        case 4:
-            source.open("data\\Nomen\\kleidung.txt",ios::in);
-            break;
+            case 4:
+                source.open("data\\Nomen\\plik.txt",ios::in);
+                break;
+
+            case 5:
+                source.open("data\\Nomen\\body.txt",ios::in);
+                break;
+
+            case 6:
+                source.open("data\\Nomen\\kleidung.txt",ios::in);
+                break;
         }
 
     if (!rand_file) {   //for non-random file
@@ -118,22 +154,30 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
         if (rand_file) {    //for random file
            do {
-                mode = rand() % 4 + 1;   //drawing a random file
+                mode = rand() % NomenFilesNum + 1;   //drawing a random file
            } while (mode == 1);
 
-           switch (mode) { //opening file
-        case 2:
-            source.open("data\\Nomen\\plik.txt",ios::in);
-            break;
+            switch (mode) { //opening file
+                case 2:
+                    source.open("data\\Nomen\\Postkarte.txt",ios::in);
+                    break;
 
-        case 3:
-            source.open("data\\Nomen\\body.txt",ios::in);
-            break;
+                case 3:
+                    source.open("data\\Nomen\\Leute.txt",ios::in);
+                    break;
 
-        case 4:
-            source.open("data\\Nomen\\kleidung.txt",ios::in);
-            break;
-        }
+                case 4:
+                    source.open("data\\Nomen\\plik.txt",ios::in);
+                    break;
+
+                case 5:
+                    source.open("data\\Nomen\\body.txt",ios::in);
+                    break;
+
+                case 6:
+                    source.open("data\\Nomen\\kleidung.txt",ios::in);
+                    break;
+            }
 
            //file crash test
             if(source.good() == false) {
@@ -155,17 +199,25 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
         source.close();
         switch (mode) { //opening file
-        case 2:
-            source.open("data\\Nomen\\plik.txt",ios::in);
-            break;
+            case 2:
+                source.open("data\\Nomen\\Postkarte.txt",ios::in);
+                break;
 
-        case 3:
-            source.open("data\\Nomen\\body.txt",ios::in);
-            break;
+            case 3:
+                source.open("data\\Nomen\\Leute.txt",ios::in);
+                break;
 
-        case 4:
-            source.open("data\\Nomen\\kleidung.txt",ios::in);
-            break;
+            case 4:
+                source.open("data\\Nomen\\plik.txt",ios::in);
+                break;
+
+            case 5:
+                source.open("data\\Nomen\\body.txt",ios::in);
+                break;
+
+            case 6:
+                source.open("data\\Nomen\\kleidung.txt",ios::in);
+                break;
         }
 
         do {
@@ -223,28 +275,35 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
     answer.close();
 }
 
-void Nomen_options(int i, int j, bool *opt) {
-    cout << "Ustawienia" << endl << endl;
-    cout << "1. Rodzajnik: ";
-    if (!opt[0])
-        cout << "wył" << endl;
-    else
-        cout << "wł" << endl;
-    cout << "2. Liczba pojedyncza: ";
-    if (!opt[1])
-        cout << "wył" << endl;
-    else
-        cout << "wł" << endl;
-        cout << "3. Liczba mnoga: ";
-    if (!opt[2])
-        cout << "wył" << endl;
-    else
-        cout << "wł" << endl;
-        cout << "4. Tłumaczenie (Pl): ";
-    if (!opt[4])
-        cout << "wył" << endl;
-    else
-        cout << "wł" << endl;
+void Nomen_options(int i, int j, int mode, bool *opt) {
+    do {
+        cout << endl << "Ustawienia" << endl << endl;
+        cout << "1. Rodzajnik: ";
+        if (!opt[0])
+            cout << "wyl" << endl;
+        else
+            cout << "wl" << endl;
+        cout << "2. Liczba pojedyncza: ";
+        if (!opt[1])
+            cout << "wyl" << endl;
+        else
+            cout << "wl" << endl;
+            cout << "3. Liczba mnoga: ";
+        if (!opt[2])
+            cout << "wyl" << endl;
+        else
+            cout << "wl" << endl;
+            cout << "4. Tlumaczenie (Pl): ";
+        if (!opt[3])
+            cout << "wyl" << endl;
+        else
+            cout << "wl" << endl;
+        cout << endl << "Wybierz numer elemntu, ktory chcesz zmodyfikowac." << endl << "Wcisnij \"0\", aby opuscic panel ustawien." << endl;
+
+        cin >> mode;
+        if (mode)
+            opt[mode-1] = !opt[mode-1];
+    } while (mode != 0);
 }
 /*
 void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans) {
