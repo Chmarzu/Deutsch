@@ -5,7 +5,7 @@
 #include <string>
 //#include <windows.h>
 #define BUFF 10
-#define NomenFilesNum 6 //number of files for function Nomen + 1
+#define NomenFilesNum 7 //number of files for function Nomen + 1
 
 using namespace std;
 
@@ -78,18 +78,22 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                     break;
 
                 case 2:
-                    cout << "Ludzie (ogolne)";
+                    cout << "Ludzie";
                     break;
 
                 case 3:
-                    cout << "Ogolne";
+                    cout << "Rodzina";
                     break;
 
                 case 4:
-                    cout << "Czesci ciala";
+                    cout << "Ogolne";
                     break;
 
                 case 5:
+                    cout << "Czesci ciala";
+                    break;
+
+                case 6:
                     cout << "Ubrania";
                     break;
             }
@@ -118,14 +122,18 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                 break;
 
             case 4:
-                source.open("data\\Nomen\\plik.txt",ios::in);
+                source.open("data\\Nomen\\Familie.txt",ios::in);
                 break;
 
             case 5:
-                source.open("data\\Nomen\\body.txt",ios::in);
+                source.open("data\\Nomen\\plik.txt",ios::in);
                 break;
 
             case 6:
+                source.open("data\\Nomen\\body.txt",ios::in);
+                break;
+
+            case 7:
                 source.open("data\\Nomen\\kleidung.txt",ios::in);
                 break;
         }
@@ -167,14 +175,18 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                     break;
 
                 case 4:
-                    source.open("data\\Nomen\\plik.txt",ios::in);
+                    source.open("data\\Nomen\\Familie.txt",ios::in);
                     break;
 
                 case 5:
-                    source.open("data\\Nomen\\body.txt",ios::in);
+                    source.open("data\\Nomen\\plik.txt",ios::in);
                     break;
 
                 case 6:
+                    source.open("data\\Nomen\\body.txt",ios::in);
+                    break;
+
+                case 7:
                     source.open("data\\Nomen\\kleidung.txt",ios::in);
                     break;
             }
@@ -208,14 +220,18 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                 break;
 
             case 4:
-                source.open("data\\Nomen\\plik.txt",ios::in);
+                source.open("data\\Nomen\\Familie.txt",ios::in);
                 break;
 
             case 5:
-                source.open("data\\Nomen\\body.txt",ios::in);
+                source.open("data\\Nomen\\plik.txt",ios::in);
                 break;
 
             case 6:
+                source.open("data\\Nomen\\body.txt",ios::in);
+                break;
+
+            case 7:
                 source.open("data\\Nomen\\kleidung.txt",ios::in);
                 break;
         }

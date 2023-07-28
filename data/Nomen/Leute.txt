@@ -88,3 +88,9 @@ Mädchen
 Mädchen
 dziewczyna
 }
+{
+e
+-
+Leute
+ludzie
+}
