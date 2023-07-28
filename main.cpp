@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
-//#include <windows.h>
+#include <windows.h>
 #define BUFF 10
 #define NomenFilesNum 7 //number of files for function Nomen + 1
 
@@ -264,12 +264,57 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
     //user interface
     answer.open("program.txt",ios::out);
-    for (i = 0; i < BUFF; i++)
-        answer << buffer[i].noun_sg << " - " << buffer[i].transl << endl << buffer[i].noun_pl  << endl;
 
-    cout << "Jesli chcesz opuscic program wprowadz: 0" << endl;
-    cout << "Podaj rodzajnik (der - r, die - e, das - s):" << endl << endl;
+    for (i = 0; i < BUFF; i++) {
+        answer << i + 1 << ") ";
+        if (opt[0])
+            answer << buffer[i].article << " ";
+        if (opt[1])
+            answer << buffer[i].noun_sg;
+        if (opt[2])
+            answer << " (" << buffer[i].noun_pl << ")";
+        if (opt[3])
+            answer << " - " << buffer[i].transl;
+        answer << endl;
+    }
 
+    for (i = 0; i < BUFF; i++) {
+        answer << i + 1 << ") " << endl;
+        if (!opt[0])
+            answer << "Rodzajnik:" << endl << endl;
+        if (!opt[1])
+            answer << "Rzeczownik (liczba pojedyncza):" << endl << endl;
+        if (!opt[2])
+            answer << "Rzeczownik (liczba mnoga):" << endl << endl;
+        if (!opt[3])
+            answer << "Tlumaczenie:" << endl << endl;
+        answer << endl;
+    }
+
+    answer.close();
+
+    cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
+    << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
+    << "Format wczytywania rodzajnikow: der - r, die - e, das - s." << endl << endl
+    << "Jesli chcesz opuscic program wprowadz: 0." << endl
+    << "Aby kontyunowac wprowadz: 1" << endl;
+
+    do {
+        cin >> ans[0];
+
+        if (ans[0].compare("0") == 0) {    //immediate exit
+            cout << "Czy na pewno chcesz zamknac program?" << endl << "(Jesli tak ponownie wprowadz: 0)" << endl;
+            cin >> ans[0];
+            if (ans[0].compare("0") == 0)
+                exit(0);
+        }
+    } while(ans[0].compare("1") == 1);
+
+    for (i = 0; i < BUFF; i++) {
+            cout << "Jol!" << endl;
+    }
+
+    /*
     for (i = 0; i < BUFF; i++) {
         do {
             cout << i + 1 << "." << endl;
@@ -286,12 +331,13 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
         cout << endl;
     }
-
+*/
     source.close();
-    answer.close();
 }
 
 void Nomen_options(int i, int j, int mode, bool *opt) {
+    short num;
+
     do {
         cout << endl << "Ustawienia" << endl << endl;
         cout << "1. Rodzajnik: ";
@@ -319,7 +365,15 @@ void Nomen_options(int i, int j, int mode, bool *opt) {
         cin >> mode;
         if (mode)
             opt[mode-1] = !opt[mode-1];
-    } while (mode != 0);
+
+        num = opt[0] + opt[1] + opt[2] + opt[3];
+
+        if (!mode && (!num || num == 4)) {
+            cout << endl << endl << "Niewlasciwa konfiguracja!" << endl
+            << "Przynajmniej jeden element musi zostac wyswietlony oraz program nie moze wyswietlic wszystkich elementow." << endl << endl;
+            Sleep(2000);
+        }
+    } while (mode || !num || num == 4);
 }
 /*
 void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans) {
