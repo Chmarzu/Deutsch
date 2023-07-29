@@ -9,17 +9,17 @@
 
 using namespace std;
 
-void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans);
+void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 void Nomen_options(int i, int j, int mode, bool *opt);
-void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans);
-void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans);
-void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans);
+void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 
 int main() {
     srand (time(NULL));
     int mode, i, j, maxnum, randy[BUFF];
     fstream source, answer;
-    string ans[3];
+    string ans;
 
     do {
         cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl << "2) Czasownik" << endl
@@ -35,7 +35,7 @@ int main() {
 
         switch (mode) {
         case 1:
-            Nomen(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
+            Nomen(i, j, mode, maxnum, &randy[0], source, answer, ans);
             break;
 
        /* case 2:
@@ -58,18 +58,18 @@ int main() {
     return 0;
 }
 
-void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans) {
+void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
     struct word {
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
-    bool rand_file = false, opt[4] = {false, true, true, true};
+    bool rand_file = false, opt[4] = {false, true, true, true}, fail = false;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
 
         cout << "Wybierz zakres slownictwa:";
         for (i = 0; i < NomenFilesNum; i++) {
-        cout << endl << i+1 << ") ";
+        cout << endl << i + 1 << ") ";
             switch (i) {
                 case 0:
                     cout << "Wszystko";
@@ -153,7 +153,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
             }
 
             //file contents check (amount of words)
-            while (getline(source, ans[0]))
+            while (getline(source, ans))
                 maxnum++;
 
             if (maxnum % 6 >= 1) {
@@ -205,7 +205,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                 }
 
                 //file contents check (amount of words)
-                while (getline(source, ans[0]))
+                while (getline(source, ans))
                     maxnum++;
 
                 if (maxnum % 6 >= 1) {
@@ -256,12 +256,12 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
 
             for (j = 0; j < randy[i]; j++) {
-                getline(source, ans[0]);
+                getline(source, ans);
                 getline(source, buffer[i].article);
                 getline(source, buffer[i].noun_sg);
                 getline(source, buffer[i].noun_pl);
                 getline(source, buffer[i].transl);
-                getline(source, ans[0]);
+                getline(source, ans);
             }
 
             if (rand_file)
@@ -313,70 +313,84 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
         } while(mode < 0 || mode > 1);
 
             if (mode == 1) {
-                answer.open("program.txt",ios::in);
+                do {
+                    answer.open("program.txt",ios::in);
 
-                for (i = 0; i < BUFF + 3; i++)
-                    getline (answer, ans[0]);
+                    for (i = 0; i < BUFF + 3; i++)
+                        getline (answer, ans);
 
-                for (i = 0; i < BUFF; i++) {
-                    cout << i + 1 << ")" << endl;
+                    for (i = 0; i < BUFF; i++) {
+                        cout << i + 1 << ")" << endl;
 
-                    if (!opt[0]) {
-                        cout << "Rodzajnik: ";
-                        if (ans[0].compare(buffer[i].article) == 0) {
-                                cout << "Richtig";
-                        } else cout << "Falsch";
-                        cout << endl;
-                    }
-
-                    if (!opt[1]) {
                         if (!opt[0]) {
-                            for (j = 0; j < 2; j++)
-                                getline (answer, ans[0]);
+                            cout << "Rodzajnik: ";
+                            if (ans.compare(buffer[i].article) == 1) {
+                                   cout << "Falsch";
+                                   fail = true;
+                            } else cout << "Richtig";
+                            cout << endl;
                         }
 
-                        cout << "Rzeczownik (liczba pojedyncza): ";
-                        if (ans[0].compare(buffer[i].noun_sg) == 0) {
-                                cout << "Richtig";
-                        } else cout << "Falsch";
-                        cout << endl;
-                    }
+                        if (!opt[1]) {
+                            if (!opt[0]) {
+                                for (j = 0; j < 2; j++)
+                                    getline (answer, ans);
+                            }
 
-                    if (!opt[2]) {
-                        if (!opt[0] || !opt[1]) {
-                            for (j = 0; j < 2; j++)
-                                getline (answer, ans[0]);
+                            cout << "Rzeczownik (liczba pojedyncza): ";
+                            if (ans.compare(buffer[i].noun_sg) == 1) {
+                                   cout << "Falsch";
+                                   fail = true;
+                            } else cout << "Richtig";
+                            cout << endl;
                         }
 
-                        cout << "Rzeczownik (liczba mnoga): ";
-                        if (ans[0].compare(buffer[i].noun_pl) == 0) {
-                                cout << "Richtig";
-                        } else cout << "Falsch";
-                        cout << endl;
-                    }
+                        if (!opt[2]) {
+                            if (!opt[0] || !opt[1]) {
+                                for (j = 0; j < 2; j++)
+                                    getline (answer, ans);
+                            }
 
-                    if (!opt[3]) {
-                        if (!opt[0] || !opt[1] || !opt[2]) {
-                            for (j = 0; j < 2; j++)
-                                getline (answer, ans[0]);
+                            cout << "Rzeczownik (liczba mnoga): ";
+                            if (ans.compare(buffer[i].noun_pl) == 1) {
+                                   cout << "Falsch";
+                                   fail = true;
+                            } else cout << "Richtig";
+                            cout << endl;
                         }
 
-                        cout << "Tlumaczenie: ";
-                        if (ans[0].compare(buffer[i].transl) == 0) {
-                                cout << "Richtig";
-                        } else cout << "Falsch";
-                        cout << endl;
+                        if (!opt[3]) {
+                            if (!opt[0] || !opt[1] || !opt[2]) {
+                                for (j = 0; j < 2; j++)
+                                    getline (answer, ans);
+                            }
+
+                            cout << "Tlumaczenie: ";
+                            if (ans.compare(buffer[i].transl) == 1) {
+                                   cout << "Falsch";
+                                   fail = true;
+                            } else cout << "Richtig";
+                            cout << endl;
+                        }
+
+                        for (j = 0; j < 4; j++)
+                            getline (answer, ans);
                     }
 
-                    for (j = 0; j < 4; j++)
-                        getline (answer, ans[0]);
-                }
+                    answer.close();
 
-                answer.close();
-                source.close();
+                    if (fail)
+                        cout << "Powrot do Glownego Menu: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                    else cout << "Powrot do Glownego Menu: 0" << endl;
 
-                cin >> ans[0];
+                    cin >> mode;
+
+                    if (mode < 0 || mode > 1)
+                        cout << endl << "Bledna wartosc!" << endl << endl;
+                } while(mode);
             }
+
+            source.close();
         }
 }
 
