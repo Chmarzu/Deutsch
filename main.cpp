@@ -4,7 +4,7 @@
 #include <ctime>
 #include <string>
 #include <windows.h>
-#define BUFF 10
+#define BUFF 3
 #define NomenFilesNum 7 //number of files for function Nomen + 1
 
 using namespace std;
@@ -21,38 +21,40 @@ int main() {
     fstream source, answer;
     string ans[3];
 
-    cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl << "2) Czasownik" << endl
-    /*<< "3) Przymiotnik" << endl*/ << "4) Rekcja" << endl << "5) Wyjscie z programu" << endl;
-
     do {
-    cin >> mode;
+        cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl << "2) Czasownik" << endl
+        /*<< "3) Przymiotnik" << endl*/ << "4) Rekcja" << endl << "5) Wyjscie z programu" << endl;
 
-    if (mode < 1 || mode > 5)
-        cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
-    } while (mode < 1 || mode > 5);
-    cout << endl;
+        do {
+        cin >> mode;
 
-    switch (mode) {
-    case 1:
-        Nomen(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
-        break;
+        if (mode < 1 || mode > 5)
+            cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
+        } while (mode < 1 || mode > 5);
+        cout << endl;
 
-   /* case 2:
-        Verb(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
-        break;
+        switch (mode) {
+        case 1:
+            Nomen(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
+            break;
 
-    case 3:
-        Adjektiv(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
-        break;
+       /* case 2:
+            Verb(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
+            break;
 
-    case 4:
-        Rektion(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
-        break;
-    case 5:
-        cout << "Do nastepnego razu!";
-        exit(0);    */
-    }
+        case 3:
+            Adjektiv(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
+            break;
 
+        case 4:
+            Rektion(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
+            break;  */
+        case 5:
+            cout << "Do nastepnego razu!";
+            Sleep(500);
+            exit(0);
+        }
+    } while (mode != 5);
     return 0;
 }
 
@@ -100,71 +102,120 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
         }
         cout << endl;
 
+        cout << "Powrot do Glownego Menu: " << NomenFilesNum + 1 << endl;
+
         cin >> mode;
+
         if (!mode)
             Nomen_options(i, j, mode, &opt[0]);
-        else if (mode < 1 || mode > NomenFilesNum)
+        else if (mode < 1 || mode > NomenFilesNum + 1)
             cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
-        } while (mode < 1 || mode > NomenFilesNum);
+        } while (mode < 1 || mode > NomenFilesNum + 1);
         cout << endl;
 
-        switch (mode) { //opening file
-            case 1:
-                rand_file = true;
-                break;
+        if  (mode != NomenFilesNum + 1) {
+            switch (mode) { //opening file
+                case 1:
+                    rand_file = true;
+                    break;
 
-            case 2:
-                source.open("data\\Nomen\\Postkarte.txt",ios::in);
-                break;
+                case 2:
+                    source.open("data\\Nomen\\Postkarte.txt",ios::in);
+                    break;
 
-            case 3:
-                source.open("data\\Nomen\\Leute.txt",ios::in);
-                break;
+                case 3:
+                    source.open("data\\Nomen\\Leute.txt",ios::in);
+                    break;
 
-            case 4:
-                source.open("data\\Nomen\\Familie.txt",ios::in);
-                break;
+                case 4:
+                    source.open("data\\Nomen\\Familie.txt",ios::in);
+                    break;
 
-            case 5:
-                source.open("data\\Nomen\\plik.txt",ios::in);
-                break;
+                case 5:
+                    source.open("data\\Nomen\\plik.txt",ios::in);
+                    break;
 
-            case 6:
-                source.open("data\\Nomen\\body.txt",ios::in);
-                break;
+                case 6:
+                    source.open("data\\Nomen\\body.txt",ios::in);
+                    break;
 
-            case 7:
-                source.open("data\\Nomen\\kleidung.txt",ios::in);
-                break;
+                case 7:
+                    source.open("data\\Nomen\\kleidung.txt",ios::in);
+                    break;
+            }
+
+        if (!rand_file) {   //for non-random file
+            //file crash test
+            if(source.good() == false) {
+                cout << "Error! Source file doesn't exist!";
+                getchar();
+                exit(0);
+            }
+
+            //file contents check (amount of words)
+            while (getline(source, ans[0]))
+                maxnum++;
+
+            if (maxnum % 6 >= 1) {
+                cout << "Error! Incorrect data file content!";
+                getchar();
+                exit(0);
+            }
         }
 
-    if (!rand_file) {   //for non-random file
-        //file crash test
-        if(source.good() == false) {
-            cout << "Error! Source file doesn't exist!";
-            getchar();
-            exit(0);
-        }
+        //drawing a record
+        for (i = 0; i < BUFF; i++) {
 
-        //file contents check (amount of words)
-        while (getline(source, ans[0]))
-            maxnum++;
+            if (rand_file) {    //for random file
+               do {
+                    mode = rand() % NomenFilesNum + 1;   //drawing a random file
+               } while (mode == 1);
 
-        if (maxnum % 6 >= 1) {
-            cout << "Error! Incorrect data file content!";
-            getchar();
-            exit(0);
-        }
-    }
+                switch (mode) { //opening file
+                    case 2:
+                        source.open("data\\Nomen\\Postkarte.txt",ios::in);
+                        break;
 
-    //drawing a record
-    for (i = 0; i < BUFF; i++) {
+                    case 3:
+                        source.open("data\\Nomen\\Leute.txt",ios::in);
+                        break;
 
-        if (rand_file) {    //for random file
-           do {
-                mode = rand() % NomenFilesNum + 1;   //drawing a random file
-           } while (mode == 1);
+                    case 4:
+                        source.open("data\\Nomen\\Familie.txt",ios::in);
+                        break;
 
+                    case 5:
+                        source.open("data\\Nomen\\plik.txt",ios::in);
+                        break;
+
+                    case 6:
+                        source.open("data\\Nomen\\body.txt",ios::in);
+                        break;
+
+                    case 7:
+                        source.open("data\\Nomen\\kleidung.txt",ios::in);
+                        break;
+                }
+
+               //file crash test
+                if(source.good() == false) {
+                    cout << "Error! Source file doesn't exist!";
+                    getchar();
+                    exit(0);
+                }
+
+                //file contents check (amount of words)
+                while (getline(source, ans[0]))
+                    maxnum++;
+
+                if (maxnum % 6 >= 1) {
+                    cout << "Error! Incorrect data file content!";
+                    getchar();
+                    exit(0);
+                }
+            }
+
+            source.close();
             switch (mode) { //opening file
                 case 2:
                     source.open("data\\Nomen\\Postkarte.txt",ios::in);
@@ -191,148 +242,142 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                     break;
             }
 
-           //file crash test
-            if(source.good() == false) {
-                cout << "Error! Source file doesn't exist!";
-                getchar();
-                exit(0);
+            do {
+            randy[i] = rand() % maxnum / 6 + 1; //drawing a random number
+
+            if (i > 0 && rand_file == false) {  //duplicate check
+                for (j = 0; j < i; j++) {
+                    if (randy[i] == randy[j])
+                        break;
+                }
+            } else
+                break;
+            } while (j < i);
+
+
+            for (j = 0; j < randy[i]; j++) {
+                getline(source, ans[0]);
+                getline(source, buffer[i].article);
+                getline(source, buffer[i].noun_sg);
+                getline(source, buffer[i].noun_pl);
+                getline(source, buffer[i].transl);
+                getline(source, ans[0]);
             }
 
-            //file contents check (amount of words)
-            while (getline(source, ans[0]))
-                maxnum++;
-
-            if (maxnum % 6 >= 1) {
-                cout << "Error! Incorrect data file content!";
-                getchar();
-                exit(0);
-            }
+            if (rand_file)
+                source.close();
         }
 
-        source.close();
-        switch (mode) { //opening file
-            case 2:
-                source.open("data\\Nomen\\Postkarte.txt",ios::in);
-                break;
+        //user interface
+        answer.open("program.txt",ios::out);
 
-            case 3:
-                source.open("data\\Nomen\\Leute.txt",ios::in);
-                break;
-
-            case 4:
-                source.open("data\\Nomen\\Familie.txt",ios::in);
-                break;
-
-            case 5:
-                source.open("data\\Nomen\\plik.txt",ios::in);
-                break;
-
-            case 6:
-                source.open("data\\Nomen\\body.txt",ios::in);
-                break;
-
-            case 7:
-                source.open("data\\Nomen\\kleidung.txt",ios::in);
-                break;
+        for (i = 0; i < BUFF; i++) {
+            answer << i + 1 << ") ";
+            if (opt[0])
+                answer << buffer[i].article << " ";
+            if (opt[1])
+                answer << buffer[i].noun_sg;
+            if (opt[2])
+                answer << " (" << buffer[i].noun_pl << ")";
+            if (opt[3])
+                answer << " - " << buffer[i].transl;
+            answer << endl;
         }
+
+        for (i = 0; i < BUFF; i++) {
+            answer << i + 1 << ") " << endl;
+            if (!opt[0])
+                answer << "Rodzajnik:" << endl << endl;
+            if (!opt[1])
+                answer << "Rzeczownik (liczba pojedyncza):" << endl << endl;
+            if (!opt[2])
+                answer << "Rzeczownik (liczba mnoga):" << endl << endl;
+            if (!opt[3])
+                answer << "Tlumaczenie:" << endl << endl;
+            answer << endl;
+        }
+
+        answer.close();
+
+        cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
+        << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
+        << "Format wczytywania rodzajnikow: der - r, die - e, das - s." << endl << endl
+        << "Jesli chcesz opuscic program wprowadz: 0." << endl
+        << "Aby kontyunowac wprowadz: 1" << endl;
 
         do {
-        randy[i] = rand() % maxnum / 6 + 1; //drawing a random number
+            cin >> mode;
 
-        if (i > 0 && rand_file == false) {  //duplicate check
-            for (j = 0; j < i; j++) {
-                if (randy[i] == randy[j])
-                    break;
-            }
-        } else
-            break;
-        } while (j < i);
+            if (mode < 0 || mode > 1)
+                cout << endl << "Bledna wartosc!" << endl << endl;
+        } while(mode < 0 || mode > 1);
 
+            if (mode == 1) {
+                answer.open("program.txt",ios::in);
 
-        for (j = 0; j < randy[i]; j++) {
-            getline(source, ans[0]);
-            getline(source, buffer[i].article);
-            getline(source, buffer[i].noun_sg);
-            getline(source, buffer[i].noun_pl);
-            getline(source, buffer[i].transl);
-            getline(source, ans[0]);
-        }
+                for (i = 0; i < BUFF + 3; i++)
+                    getline (answer, ans[0]);
 
-        if (rand_file)
-            source.close();
-    }
+                for (i = 0; i < BUFF; i++) {
+                    cout << i + 1 << ")" << endl;
 
-    //user interface
-    answer.open("program.txt",ios::out);
+                    if (!opt[0]) {
+                        cout << "Rodzajnik: ";
+                        if (ans[0].compare(buffer[i].article) == 0) {
+                                cout << "Richtig";
+                        } else cout << "Falsch";
+                        cout << endl;
+                    }
 
-    for (i = 0; i < BUFF; i++) {
-        answer << i + 1 << ") ";
-        if (opt[0])
-            answer << buffer[i].article << " ";
-        if (opt[1])
-            answer << buffer[i].noun_sg;
-        if (opt[2])
-            answer << " (" << buffer[i].noun_pl << ")";
-        if (opt[3])
-            answer << " - " << buffer[i].transl;
-        answer << endl;
-    }
+                    if (!opt[1]) {
+                        if (!opt[0]) {
+                            for (j = 0; j < 2; j++)
+                                getline (answer, ans[0]);
+                        }
 
-    for (i = 0; i < BUFF; i++) {
-        answer << i + 1 << ") " << endl;
-        if (!opt[0])
-            answer << "Rodzajnik:" << endl << endl;
-        if (!opt[1])
-            answer << "Rzeczownik (liczba pojedyncza):" << endl << endl;
-        if (!opt[2])
-            answer << "Rzeczownik (liczba mnoga):" << endl << endl;
-        if (!opt[3])
-            answer << "Tlumaczenie:" << endl << endl;
-        answer << endl;
-    }
+                        cout << "Rzeczownik (liczba pojedyncza): ";
+                        if (ans[0].compare(buffer[i].noun_sg) == 0) {
+                                cout << "Richtig";
+                        } else cout << "Falsch";
+                        cout << endl;
+                    }
 
-    answer.close();
+                    if (!opt[2]) {
+                        if (!opt[0] || !opt[1]) {
+                            for (j = 0; j < 2; j++)
+                                getline (answer, ans[0]);
+                        }
 
-    cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
-    << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
-    << "Format wczytywania rodzajnikow: der - r, die - e, das - s." << endl << endl
-    << "Jesli chcesz opuscic program wprowadz: 0." << endl
-    << "Aby kontyunowac wprowadz: 1" << endl;
+                        cout << "Rzeczownik (liczba mnoga): ";
+                        if (ans[0].compare(buffer[i].noun_pl) == 0) {
+                                cout << "Richtig";
+                        } else cout << "Falsch";
+                        cout << endl;
+                    }
 
-    do {
-        cin >> ans[0];
+                    if (!opt[3]) {
+                        if (!opt[0] || !opt[1] || !opt[2]) {
+                            for (j = 0; j < 2; j++)
+                                getline (answer, ans[0]);
+                        }
 
-        if (ans[0].compare("0") == 0) {    //immediate exit
-            cout << "Czy na pewno chcesz zamknac program?" << endl << "(Jesli tak ponownie wprowadz: 0)" << endl;
-            cin >> ans[0];
-            if (ans[0].compare("0") == 0)
-                exit(0);
-        }
-    } while(ans[0].compare("1") == 1);
+                        cout << "Tlumaczenie: ";
+                        if (ans[0].compare(buffer[i].transl) == 0) {
+                                cout << "Richtig";
+                        } else cout << "Falsch";
+                        cout << endl;
+                    }
 
-    for (i = 0; i < BUFF; i++) {
-            cout << "Jol!" << endl;
-    }
+                    for (j = 0; j < 4; j++)
+                        getline (answer, ans[0]);
+                }
 
-    /*
-    for (i = 0; i < BUFF; i++) {
-        do {
-            cout << i + 1 << "." << endl;
-            cin >> ans[0];
+                answer.close();
+                source.close();
 
-            if (ans[0].compare("0") == 0) {    //immediate exit
-                cout << "Czy na pewno chcesz zamknac program?" << endl << "(Jesli tak ponownie wprowadz: 0)" << endl;
                 cin >> ans[0];
-                if (ans[0].compare("0") == 0)
-                    exit(0);
-            } else if (buffer[i].article != ans[0])
-                cout << endl << "Bledna odpowiedz!" << endl << endl;
-        } while(buffer[i].article != ans[0]);
-
-        cout << endl;
-    }
-*/
-    source.close();
+            }
+        }
 }
 
 void Nomen_options(int i, int j, int mode, bool *opt) {
