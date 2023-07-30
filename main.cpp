@@ -14,6 +14,7 @@ void Nomen_options(int i, int j, int mode, bool *opt);
 void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void screen_cleaner(int i, int line);
 
 int main() {
     srand (time(NULL));
@@ -31,27 +32,28 @@ int main() {
         if (mode < 1 || mode > 5)
             cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
         } while (mode < 1 || mode > 5);
-        cout << endl;
+
+        screen_cleaner(i, 70);
 
         switch (mode) {
         case 1:
             Nomen(i, j, mode, maxnum, &randy[0], source, answer, ans);
             break;
 
-       /* case 2:
-            Verb(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
+       case 2:
+            Verb(i, j, mode, maxnum, &randy[0], source, answer, ans);
             break;
 
         case 3:
-            Adjektiv(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
+            Adjektiv(i, j, mode, maxnum, &randy[0], source, answer, ans);
             break;
 
         case 4:
-            Rektion(i, j, mode, maxnum, &randy[0], source, answer, &ans[0]);
-            break;  */
+            Rektion(i, j, mode, maxnum, &randy[0], source, answer, ans);
+            break;
         case 5:
             cout << "Do nastepnego razu!";
-            Sleep(500);
+            Sleep(700);
             exit(0);
         }
     } while (mode != 5);
@@ -102,9 +104,11 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
         }
         cout << endl;
 
-        cout << "Powrot do Glownego Menu: " << NomenFilesNum + 1 << endl;
+        cout << "Powrot do  Menu Glownego: " << NomenFilesNum + 1 << endl;
 
         cin >> mode;
+
+        screen_cleaner(i, 70);
 
         if (!mode)
             Nomen_options(i, j, mode, &opt[0]);
@@ -302,7 +306,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
         cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
         << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
         << "Format wczytywania rodzajnikow: der - r, die - e, das - s." << endl << endl
-        << "Jesli chcesz opuscic program wprowadz: 0." << endl
+        << "Powrot do Menu Rzeczownik: 0." << endl
         << "Aby kontyunowac wprowadz: 1" << endl;
 
         do {
@@ -311,6 +315,8 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
             if (mode < 0 || mode > 1)
                 cout << endl << "Bledna wartosc!" << endl << endl;
         } while(mode < 0 || mode > 1);
+
+        screen_cleaner(i, 70);
 
             if (mode == 1) {
                 do {
@@ -324,7 +330,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
                         if (!opt[0]) {
                             cout << "Rodzajnik: ";
-                            if (ans.compare(buffer[i].article) == 1) {
+                            if (ans.compare(buffer[i].article) != 0) {
                                    cout << "Falsch";
                                    fail = true;
                             } else cout << "Richtig";
@@ -338,7 +344,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                             }
 
                             cout << "Rzeczownik (liczba pojedyncza): ";
-                            if (ans.compare(buffer[i].noun_sg) == 1) {
+                            if (ans.compare(buffer[i].noun_sg) != 0) {
                                    cout << "Falsch";
                                    fail = true;
                             } else cout << "Richtig";
@@ -352,7 +358,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                             }
 
                             cout << "Rzeczownik (liczba mnoga): ";
-                            if (ans.compare(buffer[i].noun_pl) == 1) {
+                            if (ans.compare(buffer[i].noun_pl) != 0) {
                                    cout << "Falsch";
                                    fail = true;
                             } else cout << "Richtig";
@@ -366,7 +372,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                             }
 
                             cout << "Tlumaczenie: ";
-                            if (ans.compare(buffer[i].transl) == 1) {
+                            if (ans.compare(buffer[i].transl) != 0) {
                                    cout << "Falsch";
                                    fail = true;
                             } else cout << "Richtig";
@@ -379,14 +385,18 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
                     answer.close();
 
-                    if (fail)
-                        cout << "Powrot do Glownego Menu: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
-                    else cout << "Powrot do Glownego Menu: 0" << endl;
+                    if (fail) {
+                        cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                        fail = false;
+                    }
+                    else cout << endl << "Powrot do Menu Glownego: 0" << endl;
 
                     cin >> mode;
 
                     if (mode < 0 || mode > 1)
                         cout << endl << "Bledna wartosc!" << endl << endl;
+
+                    screen_cleaner(i, 70);
                 } while(mode);
             }
 
@@ -422,6 +432,9 @@ void Nomen_options(int i, int j, int mode, bool *opt) {
         cout << endl << "Wybierz numer elemntu, ktory chcesz zmodyfikowac." << endl << "Wcisnij \"0\", aby opuscic panel ustawien." << endl;
 
         cin >> mode;
+
+        screen_cleaner(i, 70);
+
         if (mode)
             opt[mode-1] = !opt[mode-1];
 
@@ -434,8 +447,8 @@ void Nomen_options(int i, int j, int mode, bool *opt) {
         }
     } while (mode || !num || num == 4);
 }
-/*
-void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans) {
+
+void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
     struct word {
         string infinitiv, imperfekt, partizip_perfekt, hilfsverb, transl;
     } buffer[BUFF];
@@ -525,11 +538,11 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
 
 
 }
-void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans) {
+void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
 
 }
 
-void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string *ans) {
+void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
     struct word {
         string reflexivpronomen, verb, praposition, kasus, transl;
     } buffer[BUFF];
@@ -620,4 +633,9 @@ void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fs
     source.close();
     answer.close();
 }
-*/
+
+//Funkcja "screen_cleaner" odpowiada za "czyszczenie ekranu" - przesuwanie modeu tak, aby nie bylo widac wczesniejszych, niepotrzebnych komunikatow.
+void screen_cleaner (int i, int line) {
+    for (i = 0; i < line; i++)
+        cout << endl;
+}
