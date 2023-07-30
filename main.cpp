@@ -18,9 +18,9 @@ void screen_cleaner(int i, int line);
 
 int main() {
     srand (time(NULL));
-    int mode, i, j, maxnum, randy[BUFF];
-    fstream source, answer;
-    string ans;
+    int i, j, mode /*control over flow of program*/, maxnum /*amount of words from a file*/, randy[BUFF] /*array of randomly generated words (indexes)*/;
+    fstream source /*file from database*/, answer /*UI file*/;
+    string ans /*for answer check*/;
 
     do {
         cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl << "2) Czasownik" << endl
@@ -51,20 +51,22 @@ int main() {
         case 4:
             Rektion(i, j, mode, maxnum, &randy[0], source, answer, ans);
             break;
+
         case 5:
             cout << "Do nastepnego razu!";
             Sleep(700);
             exit(0);
         }
     } while (mode != 5);
+
     return 0;
 }
 
 void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
-    struct word {
+    struct word {   //info about word
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
-    bool rand_file = false, opt[4] = {false, true, true, true}, fail = false;
+    bool rand_file = false /*for randomised file source*/, opt[4] = {false, true, true, true} /*visibility of word's data*/, fail = false /*mistake in answers indicator*/;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
