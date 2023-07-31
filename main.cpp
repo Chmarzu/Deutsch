@@ -11,6 +11,7 @@ using namespace std;
 
 void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 void Nomen_options(int i, int j, int mode, bool *opt);
+void file_opener(int &mode, fstream &source);
 void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
@@ -120,35 +121,12 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
         cout << endl;
 
         if  (mode != NomenFilesNum + 1) {
-            switch (mode) { //opening file
-                case 1:
-                    rand_file = true;
-                    break;
+            if (mode == 1)
+                rand_file = true;
+            else
+                file_opener(mode, source);
 
-                case 2:
-                    source.open("data\\Nomen\\Postkarte.txt",ios::in);
-                    break;
 
-                case 3:
-                    source.open("data\\Nomen\\Leute.txt",ios::in);
-                    break;
-
-                case 4:
-                    source.open("data\\Nomen\\Familie.txt",ios::in);
-                    break;
-
-                case 5:
-                    source.open("data\\Nomen\\plik.txt",ios::in);
-                    break;
-
-                case 6:
-                    source.open("data\\Nomen\\body.txt",ios::in);
-                    break;
-
-                case 7:
-                    source.open("data\\Nomen\\kleidung.txt",ios::in);
-                    break;
-            }
 
         if (!rand_file) {   //for non-random file
             //file crash test
@@ -177,31 +155,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                     mode = rand() % NomenFilesNum + 1;   //drawing a random file
                } while (mode == 1);
 
-                switch (mode) { //opening file
-                    case 2:
-                        source.open("data\\Nomen\\Postkarte.txt",ios::in);
-                        break;
-
-                    case 3:
-                        source.open("data\\Nomen\\Leute.txt",ios::in);
-                        break;
-
-                    case 4:
-                        source.open("data\\Nomen\\Familie.txt",ios::in);
-                        break;
-
-                    case 5:
-                        source.open("data\\Nomen\\plik.txt",ios::in);
-                        break;
-
-                    case 6:
-                        source.open("data\\Nomen\\body.txt",ios::in);
-                        break;
-
-                    case 7:
-                        source.open("data\\Nomen\\kleidung.txt",ios::in);
-                        break;
-                }
+                file_opener(mode, source);
 
                //file crash test
                 if(source.good() == false) {
@@ -222,31 +176,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
             }
 
             source.close();
-            switch (mode) { //opening file
-                case 2:
-                    source.open("data\\Nomen\\Postkarte.txt",ios::in);
-                    break;
-
-                case 3:
-                    source.open("data\\Nomen\\Leute.txt",ios::in);
-                    break;
-
-                case 4:
-                    source.open("data\\Nomen\\Familie.txt",ios::in);
-                    break;
-
-                case 5:
-                    source.open("data\\Nomen\\plik.txt",ios::in);
-                    break;
-
-                case 6:
-                    source.open("data\\Nomen\\body.txt",ios::in);
-                    break;
-
-                case 7:
-                    source.open("data\\Nomen\\kleidung.txt",ios::in);
-                    break;
-            }
+            file_opener(mode, source);
 
             do {
             randy[i] = rand() % maxnum / 6 + 1; //drawing a random number
@@ -421,12 +351,12 @@ void Nomen_options(int i, int j, int mode, bool *opt) {
             cout << "wyl" << endl;
         else
             cout << "wl" << endl;
-            cout << "3. Liczba mnoga: ";
+        cout << "3. Liczba mnoga: ";
         if (!opt[2])
             cout << "wyl" << endl;
         else
             cout << "wl" << endl;
-            cout << "4. Tlumaczenie (Pl): ";
+        cout << "4. Tlumaczenie (Pl): ";
         if (!opt[3])
             cout << "wyl" << endl;
         else
@@ -448,6 +378,34 @@ void Nomen_options(int i, int j, int mode, bool *opt) {
             Sleep(2000);
         }
     } while (mode || !num || num == 4);
+}
+
+void file_opener(int &mode, fstream &source) {
+    switch (mode) {
+        case 2:
+            source.open("data\\Nomen\\Postkarte.txt",ios::in);
+            break;
+
+        case 3:
+            source.open("data\\Nomen\\Leute.txt",ios::in);
+            break;
+
+        case 4:
+            source.open("data\\Nomen\\Familie.txt",ios::in);
+            break;
+
+        case 5:
+            source.open("data\\Nomen\\plik.txt",ios::in);
+            break;
+
+        case 6:
+            source.open("data\\Nomen\\body.txt",ios::in);
+            break;
+
+        case 7:
+            source.open("data\\Nomen\\kleidung.txt",ios::in);
+            break;
+    }
 }
 
 void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
