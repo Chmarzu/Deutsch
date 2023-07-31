@@ -5,7 +5,7 @@
 #include <string>
 #include <windows.h>
 #define BUFF 3
-#define NomenFilesNum 7 //number of files for function Nomen + 1
+#define NomenFilesNum 9 //number of files for function Nomen + 1
 
 using namespace std;
 
@@ -93,14 +93,22 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                     break;
 
                 case 4:
-                    cout << "Ogolne";
+                    cout << "Rzeczy";
                     break;
 
                 case 5:
-                    cout << "Czesci ciala";
+                    cout << "Meble";
                     break;
 
                 case 6:
+                    cout << "Ogolne";
+                    break;
+
+                case 7:
+                    cout << "Czesci ciala";
+                    break;
+
+                case 8:
                     cout << "Ubrania";
                     break;
             }
@@ -395,14 +403,22 @@ void file_opener(int &mode, fstream &source) {
             break;
 
         case 5:
-            source.open("data\\Nomen\\plik.txt",ios::in);
+            source.open("data\\Nomen\\Sachen.txt",ios::in);
             break;
 
         case 6:
-            source.open("data\\Nomen\\body.txt",ios::in);
+            source.open("data\\Nomen\\Möbel.txt",ios::in);
             break;
 
         case 7:
+            source.open("data\\Nomen\\plik.txt",ios::in);
+            break;
+
+        case 8:
+            source.open("data\\Nomen\\body.txt",ios::in);
+            break;
+
+        case 9:
             source.open("data\\Nomen\\kleidung.txt",ios::in);
             break;
     }
@@ -498,6 +514,7 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
 
 
 }
+
 void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
 
 }
