@@ -4,7 +4,7 @@
 #include <ctime>
 #include <string>
 #include <windows.h>
-#define BUFF 3
+#define BUFF 5
 #define NomenFilesNum 9 //number of files for function Nomen + 1
 
 using namespace std;
@@ -67,7 +67,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
     struct word {   //info about word
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
-    bool rand_file = false /*for randomised file source*/, opt[4] = {false, true, true, true} /*visibility of word's data*/, fail = false /*mistake in answers indicator*/;
+    bool rand_file = false /*for randomised file source*/, opt[4] = {false, true, false, false} /*visibility of word's data*/, fail = false /*mistake in answers indicator*/;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
