@@ -5,3 +5,66 @@ abgefahren
 s
 odjeżdżać
 }
+{
+abhängen
+hing ab
+abgehangen
+h
+zależeć
+}
+{
+anbieten
+bot an
+angeboten
+h
+oferować/proponować
+}
+{
+ankommen
+kam an
+angekommen
+s
+przybywać/przyjeżdżać
+}
+{
+anziehen
+zog an
+angezogen
+h
+ubierać
+}
+{
+auffallen
+fiel auf
+aufgefallen
+s
+rzucać się w oczy
+}
+{
+aufgeben
+gab auf
+aufgegeben
+h
+porzucać/nadawać
+}
+{
+aufstehen
+stand auf
+aufgestanden
+s
+wstawać
+}
+{
+ausgehen
+ging aus
+ausgegangen
+s
+wychodzić
+}
+{
+aussehen
+sah aus
+ausgesehen
+h
+wyglądać
+}
