@@ -5,3 +5,38 @@ abgeholt
 h
 odbierać
 }
+{
+abstellen
+stellte ab
+abgestellt
+h
+odstawiać/zostawiać
+}
+{
+antworten
+antwortete
+geantwortet
+h
+odpowiadać
+}
+{
+arbeiten
+arbetete
+gearbeitet
+h
+pracować
+}
+{
+aufhören
+hörte auf
+aufgehört
+h
+skończyć
+}
+{
+baden
+badete
+gebadet
+h
+kąpać się
+}
