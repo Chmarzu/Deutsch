@@ -159,3 +159,66 @@ gebrannt
 h
 palić się/płonąć
 }
+{
+dürfen
+durfte
+gedurft
+h
+móc (mieć pozwolenie)
+}
+{
+einfallen
+fiel ein
+eingefallen
+s
+wpadać/przyjść do głowy
+}
+{
+empfehlen
+empfahl
+empfohlen
+h
+polecać
+}
+{
+empfinden
+empfand
+empfunden
+h
+odczuwać/doznawać
+}
+{
+entscheiden
+entschied
+entschieden
+h
+decydować
+}
+{
+entsprechen
+entsprach
+entsprochen
+h
+odpowiadać
+}
+{
+entstehen
+entstand
+entstaden
+s
+powstawać
+}
+{
+erschrecken
+erschrack
+erschrocken
+s
+przestraszyć się
+}
+{
+erziehen
+erzog
+erzogen
+h
+wychowywać
+}
