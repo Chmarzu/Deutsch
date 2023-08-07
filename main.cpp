@@ -276,9 +276,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                         if (!opt[0]) {
                             cout << "Rodzajnik: ";
                             if (ans.compare(buffer[i].article) != 0) {
-                                   cout << "Falsch";
-                                   fail = true;
-                            } else cout << "Richtig";
+                                   cout << "X Falsch";
+                                    fail = true;
+                            } else cout << "V Richtig";
                             cout << endl;
                         }
 
@@ -290,9 +290,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
                             cout << "Rzeczownik (liczba pojedyncza): ";
                             if (ans.compare(buffer[i].noun_sg) != 0) {
-                                   cout << "Falsch";
-                                   fail = true;
-                            } else cout << "Richtig";
+                                   cout << "X Falsch";
+                                    fail = true;
+                            } else cout << "V Richtig";
                             cout << endl;
                         }
 
@@ -304,9 +304,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
                             cout << "Rzeczownik (liczba mnoga): ";
                             if (ans.compare(buffer[i].noun_pl) != 0) {
-                                   cout << "Falsch";
-                                   fail = true;
-                            } else cout << "Richtig";
+                                   cout << "X Falsch";
+                                    fail = true;
+                            } else cout << "V Richtig";
                             cout << endl;
                         }
 
@@ -318,9 +318,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
                             cout << "Tlumaczenie: ";
                             if (ans.compare(buffer[i].transl) != 0) {
-                                   cout << "Falsch";
-                                   fail = true;
-                            } else cout << "Richtig";
+                                   cout << "X Falsch";
+                                    fail = true;
+                            } else cout << "V Richtig";
                             cout << endl;
                         }
 
@@ -643,9 +643,9 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                         if (!opt[0]) {
                             cout << "Bezokolicznik (Infinitiv): ";
                             if (ans.compare(buffer[i].infinitiv) != 0) {
-                                    cout << "Falsch";
+                                    cout << "X Falsch";
                                     fail = true;
-                            } else cout << "Richtig";
+                            } else cout << "V Richtig";
                             cout << endl;
                         }
 
@@ -657,9 +657,9 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
 
                             cout << "Partizip I: ";
                             if (ans.compare(buffer[i].imperfekt) != 0) {
-                                    cout << "Falsch";
+                                    cout << "X Falsch";
                                     fail = true;
-                            } else cout << "Richtig";
+                            } else cout << "V Richtig";
                             cout << endl;
                         }
 
@@ -671,9 +671,9 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
 
                             cout << "Partizip II: ";
                             if (ans.compare(buffer[i].partizip_perfekt) != 0) {
-                                    cout << "Falsch";
+                                    cout << "X Falsch";
                                     fail = true;
-                            } else cout << "Richtig";
+                            } else cout << "V Richtig";
                               cout << endl;
                         }
 
@@ -685,9 +685,9 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
 
                             cout << "Czasownik pomocniczy: ";
                             if (ans.compare(buffer[i].hilfsverb) != 0) {
-                                cout << "Falsch";
-                                fail = true;
-                            } else cout << "Richtig";
+                                cout << "X Falsch";
+                                    fail = true;
+                            } else cout << "V Richtig";
                             cout << endl;
                         }
 
@@ -699,9 +699,9 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
 
                             cout << "Tlumaczenie: ";
                             if (ans.compare(buffer[i].transl) != 0) {
-                                cout << "Falsch";
-                                fail = true;
-                            } else cout << "Richtig";
+                                cout << "X Falsch";
+                                    fail = true;
+                            } else cout << "V Richtig";
                             cout << endl;
                         }
 
