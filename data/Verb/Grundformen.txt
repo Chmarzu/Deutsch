@@ -264,3 +264,66 @@ gefroren
 h
 marznąć
 }
+{
+gebären
+gebar
+geboren
+h
+rodzić
+}
+{
+gefallen
+gefiel
+gefallen
+h
+podobać się
+}
+{
+gelingen
+gelang
+gelungen
+s
+powieść się/udać się
+}
+{
+gelten
+galt
+gegolten
+h
+obowiązywać/mieć znaczenie
+}
+{
+genießen
+genoss
+genossen
+h
+rozkoszować się
+}
+{
+geschehen
+geschah
+geschehen
+s
+wydarzyć się
+}
+{
+gewinnen
+gewann
+gewonnen
+h
+wygrywać/zwyciężyć
+}
+{
+gießen
+goss
+gegossen
+h
+podlewać
+}
+{
+grieffen
+griff
+gegriffen
+h
+sięgać
+}
