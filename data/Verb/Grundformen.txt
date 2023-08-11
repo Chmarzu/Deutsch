@@ -321,7 +321,7 @@ h
 podlewać
 }
 {
-grieffen
+greiffen
 griff
 gegriffen
 h
@@ -346,12 +346,12 @@ helfen
 half
 geholfen
 h
-pomóc
+pomagać
 }
 {
 klingen
 klang
-geklongen
+geklungen
 h
 brzmieć
 }
