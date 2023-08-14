@@ -7,56 +7,56 @@ być
 }
 {
 reisen
--
+reiste
 gereist
 s
 podróżować
 }
 {
 wandern
--
+wanderte
 gewandert
 s
 wędrować
 }
 {
 segeln
--
+segelte
 gesegelt
 s
 żeglować
 }
 {
 aufwachen
--
+wachte auf
 aufgewacht
 s
 budzić się
 }
 {
 passieren
--
+passierte
 passiert
 s
-dziać się, wydarzać się
+wydarzać się
 }
 {
 spazieren
--
+spazierte
 spaziert
 s
 spacerować
 }
 {
 begegnen
--
+begegnete
 begegnet
 s
-spotykać, traktować
+spotykać/traktować
 }
 {
 erkranken
--
+erkrankte
 erkrankt
 s
 zachorować
@@ -70,140 +70,168 @@ iść
 }
 {
 kommen
--
+kam
 gekommen
 s
-przychodzić, pochodzić
+przychodzić/przybywać
 }
 {
 fahren
--
+fuhr
 gefahren
 s
 jechać
 }
 {
 laufen
--
+lief
 gelaufen
 s
 biec
 }
 {
 fliegen
--
+flog
 geflogen
 s
 latać
 }
 {
 schwimmen
--
+schwamm
 geschwommen
 s
 pływać
 }
 {
 aufstehen
--
+stand auf
 aufgestanden
 s
 wstawać
 }
 {
 einschlafen
--
+schlief ein
 eingeschlafen
 s
 zasypiać
 }
 {
 steigen
--
+stieg
 gestiegen
 s
 podnosić się
 }
 {
-ein/um/aussteigen
--
-umgestiegen
+einsteigen
+stieg ein
+eingestiegen
 s
-w/prze/wy-siadać (się)
+wsiadać
 }
 {
-ein/um/ausziehen
--
+umsteigen
+stieg um
+umgestiegen
+s
+przesiadać się
+}
+{
+aussteigen
+stieg aus
+ausgestiegen
+s
+wysiadać
+}
+{
+einziehen
+zog ein
 eingezogen
 s
-w/prze/wy-prowadzać się
+wprowadzać się
+}
+{
+umziehen
+zog um
+umgezogen
+s
+przeprowadzać się
+}
+{
+ausziehen
+zog aus
+ausgezogen
+s
+wyprowadzać się
 }
 {
 werden
--
+wurde
 geworden
 s
 stawać się
 }
 {
 bleiben
--
+blieb
 geblieben
 s
 zostawać
 }
 {
 sterben
--
+starb
 gestorben
 s
 umierać
 }
 {
 fallen
--
+fiel
 gefallen
 s
 spadać
 }
 {
 fliehen
--
+floh
 geflohen
 s
 uciekać
 }
 {
 gelingen
--
+gelang
 gelungen
 s
-udać się, powieść się
+powieść się/udać się
 }
 {
 geschehen
--
+geschah
 geschehen
 s
-stać się, wydarzyć się
+wydarzyć się/stać się
 }
 {
 treten
--
+trat
 getreten
 s
-kopać (kogoś), naciskać
+kopać/naciskać
 }
 {
 rennen
--
+rannte
 gerannt
 s
-pędzić, wpadać
+biegać/pędzić/wpadać
 }
 {
 springen
--
+sprang
 gesprungen
 s
 skakać
