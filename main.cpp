@@ -6,7 +6,8 @@
 #include <windows.h>
 #define BUFF 5
 #define NomenFilesNum 9 //number of files for function Nomen + 1
-#define VerbFilesNum 5 //number of files for function Verb + 1
+#define VerbFilesNum 5  //number of files for function Verb + 1
+#define FAIL_NUM 2  //number of approved attempts
 
 using namespace std;
 
@@ -439,6 +440,7 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
         string infinitiv, imperfekt, partizip_perfekt, hilfsverb, transl;
     } buffer[BUFF];
     bool rand_file = false /*for randomised file source*/, opt[5] = {true, false, false, false, false} /*visibility of word's data*/, fail = false /*mistake in answers indicator*/;
+    short fail_num;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
@@ -529,7 +531,7 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                     while (getline(source, ans))
                         maxnum++;
 
-                    if (maxnum % 6 >= 1) {
+                    if (maxnum % 7 >= 1) {
                         cout << "Error! Incorrect data file content!";
                         getchar();
                         exit(0);
@@ -614,8 +616,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
 
                 cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
                 << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
-                << "Format wczytywania rodzajnikow: der - r, die - e, das - s." << endl << endl
-                << "Powrot do Menu Rzeczownik: 0." << endl
+                << "Format wczytywania czasownikow pomocniczych: haben - h, sein - s." << endl << endl
+                << "Powrot do Menu Czasownik: 0." << endl
                 << "Aby kontyunowac wprowadz: 1" << endl;
 
             for (i = 0; i < BUFF; i++)
@@ -644,6 +646,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                             cout << "Bezokolicznik (Infinitiv): ";
                             if (ans.compare(buffer[i].infinitiv) != 0) {
                                     cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].infinitiv;
                                     fail = true;
                             } else cout << "V Richtig";
                             cout << endl;
@@ -658,6 +662,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                             cout << "Partizip I: ";
                             if (ans.compare(buffer[i].imperfekt) != 0) {
                                     cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].imperfekt;
                                     fail = true;
                             } else cout << "V Richtig";
                             cout << endl;
@@ -672,6 +678,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                             cout << "Partizip II: ";
                             if (ans.compare(buffer[i].partizip_perfekt) != 0) {
                                     cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].partizip_perfekt;
                                     fail = true;
                             } else cout << "V Richtig";
                               cout << endl;
@@ -686,6 +694,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                             cout << "Czasownik pomocniczy: ";
                             if (ans.compare(buffer[i].hilfsverb) != 0) {
                                 cout << "X Falsch";
+                                if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].hilfsverb;
                                     fail = true;
                             } else cout << "V Richtig";
                             cout << endl;
@@ -700,6 +710,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                             cout << "Tlumaczenie: ";
                             if (ans.compare(buffer[i].transl) != 0) {
                                 cout << "X Falsch";
+                                if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].transl;
                                     fail = true;
                             } else cout << "V Richtig";
                             cout << endl;
@@ -712,7 +724,11 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                     answer.close();
 
                     if (fail) {
-                        cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                        if (fail_num != 2)
+                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                        else
+                            cout << "Powrot do Menu Glownego: 0" << endl;
+                        fail_num++;
                         fail = false;
                     } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
 
@@ -795,7 +811,7 @@ void Verb_file_opener(int &mode, fstream &source) {
             break;
 
         case 4:
-            source.open("data\\Verb\\mit_sein.txt",ios::in);
+            source.open("data\\Verb\\Mit Sein.txt",ios::in);
             break;
 
         case 5:
