@@ -11,11 +11,11 @@
 
 using namespace std;
 
-void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool rand_file, bool fail, fstream &source, fstream &answer, string ans);
 void Nomen_options(int i, int j, int mode, bool *opt);
 void Nomen_file_opener(int &mode, fstream &source);
 
-void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
 void Verb_options(int i, int j, int mode, bool *opt);
 void Verb_file_opener(int &mode, fstream &source);
 
@@ -26,6 +26,8 @@ void screen_cleaner(int i, int line);
 int main() {
     srand (time(NULL));
     int i, j, mode /*control over flow of program*/, maxnum /*amount of words from a file*/, randy[BUFF] /*array of randomly generated words (indexes)*/;
+    short fail_num;
+    bool rand_file = false /*for randomised file source*/, fail = false /*mistake in answers indicator*/;
     fstream source /*file from database*/, answer /*UI file*/;
     string ans /*for answer check*/;
 
@@ -44,11 +46,11 @@ int main() {
 
         switch (mode) {
         case 1:
-            Nomen(i, j, mode, maxnum, &randy[0], source, answer, ans);
+            Nomen(i, j, mode, maxnum, &randy[0], fail_num, rand_file, fail, source, answer, ans);
             break;
 
        case 2:
-            Verb(i, j, mode, maxnum, &randy[0], source, answer, ans);
+            Verb(i, j, mode, maxnum, &randy[0], fail_num, rand_file, fail,  source, answer, ans);
             break;
 
         case 3:
@@ -69,12 +71,13 @@ int main() {
     return 0;
 }
 
-void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
+void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
     struct word {   //info about word
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
-    bool rand_file = false /*for randomised file source*/, opt[4] = {false, true, false, false} /*visibility of word's data*/, fail = false /*mistake in answers indicator*/;
-    short fail_num;
+    bool opt[4] = {false, true, false, false}; /*visibility of word's data*/
+    //bool rand_file = false /*for randomised file source*/, fail = false /*mistake in answers indicator*/;
+    //short fail_num;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
@@ -451,12 +454,13 @@ void Nomen_file_opener(int &mode, fstream &source) {
     }
 }
 
-void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
+void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
     struct word {   //info about word
         string infinitiv, imperfekt, partizip_perfekt, hilfsverb, transl;
     } buffer[BUFF];
-    bool rand_file = false /*for randomised file source*/, opt[5] = {true, false, false, false, false} /*visibility of word's data*/, fail = false /*mistake in answers indicator*/;
-    short fail_num;
+    bool opt[5] = {true, false, false, false, false}; /*visibility of word's data*/
+    //bool rand_file = false /*for randomised file source*/, fail = false /*mistake in answers indicator*/;
+    //short fail_num;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
