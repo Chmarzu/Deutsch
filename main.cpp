@@ -74,6 +74,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
     bool rand_file = false /*for randomised file source*/, opt[4] = {false, true, false, false} /*visibility of word's data*/, fail = false /*mistake in answers indicator*/;
+    short fail_num;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
@@ -277,7 +278,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                         if (!opt[0]) {
                             cout << "Rodzajnik: ";
                             if (ans.compare(buffer[i].article) != 0) {
-                                   cout << "X Falsch";
+                                    cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].article;
                                     fail = true;
                             } else cout << "V Richtig";
                             cout << endl;
@@ -291,7 +294,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
                             cout << "Rzeczownik (liczba pojedyncza): ";
                             if (ans.compare(buffer[i].noun_sg) != 0) {
-                                   cout << "X Falsch";
+                                    cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].noun_sg;
                                     fail = true;
                             } else cout << "V Richtig";
                             cout << endl;
@@ -305,7 +310,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
                             cout << "Rzeczownik (liczba mnoga): ";
                             if (ans.compare(buffer[i].noun_pl) != 0) {
-                                   cout << "X Falsch";
+                                    cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].noun_pl;
                                     fail = true;
                             } else cout << "V Richtig";
                             cout << endl;
@@ -319,7 +326,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
 
                             cout << "Tlumaczenie: ";
                             if (ans.compare(buffer[i].transl) != 0) {
-                                   cout << "X Falsch";
+                                    cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                        cout << "   " << buffer[i].transl;
                                     fail = true;
                             } else cout << "V Richtig";
                             cout << endl;
@@ -332,10 +341,17 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                     answer.close();
 
                     if (fail) {
-                        cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                        fail_num++;
+
+                        if (fail_num < 2)
+                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                        else if (fail_num == 2)
+                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                        else
+                            cout << endl << "Powrot do Menu Glownego: 0" << endl;
+
                         fail = false;
-                    }
-                    else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                    } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
 
                     cin >> mode;
 
@@ -343,7 +359,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstr
                         cout << endl << "Bledna wartosc!" << endl << endl;
 
                     screen_cleaner(i, 70);
-                } while(mode);
+                } while(mode && fail_num < FAIL_NUM + 1);
             }
 
             source.close();
@@ -724,11 +740,15 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                     answer.close();
 
                     if (fail) {
-                        if (fail_num != 2)
-                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
-                        else
-                            cout << "Powrot do Menu Glownego: 0" << endl;
                         fail_num++;
+
+                        if (fail_num < 2)
+                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                        else if (fail_num == 2)
+                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                        else
+                            cout << endl << "Powrot do Menu Glownego: 0" << endl;
+
                         fail = false;
                     } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
 
@@ -738,7 +758,7 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstre
                         cout << endl << "Bledna wartosc!" << endl << endl;
 
                     screen_cleaner(i, 70);
-                } while(mode);
+                } while(mode && fail_num < FAIL_NUM + 1);
             }
 
             source.close();
