@@ -89,7 +89,7 @@ Mädchen
 dziewczyna
 }
 {
-e
+Pl
 -
 Leute
 ludzie

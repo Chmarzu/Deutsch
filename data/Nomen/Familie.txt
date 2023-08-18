@@ -59,7 +59,7 @@ Ehepaare
 para małżeńska
 }
 {
-e
+Pl
 -
 Eltern
 rodzice
