@@ -123,7 +123,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                     break;
 
                 case 9:
-                    cout << "Ogolne";
+                    cout << "Mieso";
                     break;
 
                 case 10:
@@ -465,7 +465,7 @@ void Nomen_file_opener(int &mode, fstream &source) {
             break;
 
         case 10:
-            source.open("data\\Nomen\\plik.txt",ios::in);
+            source.open("data\\Nomen\\Fleisch.txt",ios::in);
             break;
 
         case 11:
