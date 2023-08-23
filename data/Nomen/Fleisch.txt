@@ -5,6 +5,18 @@ Schinken
 szynka
 }
 {
+r
+Rinderbraten
+Rinderbraten
+pieczeń wołowa
+}
+{
+r
+Schweinebraten
+Schweinebraten
+pieczeń wieprzowa
+}
+{
 e
 Wurt
 Würste
@@ -17,6 +29,12 @@ Leberwürste
 pasztet
 }
 {
+e
+Bratwurt
+Bratwürste
+smażona kiełbasa
+}
+{
 s
 Fleisch
 -
@@ -27,6 +45,12 @@ s
 Hähnchen
 Hähnchen
 kurczak
+}
+{
+s
+Brathähnchen
+Brathähnchen
+pieczony kurczak
 }
 {
 s

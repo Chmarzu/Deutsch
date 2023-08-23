@@ -24,6 +24,12 @@ ryba
 }
 {
 r
+Bratfisch
+Bratfische
+smażona ryba
+}
+{
+r
 Eintopf
 Eintöpfe
 zupa jednogarnkowa
