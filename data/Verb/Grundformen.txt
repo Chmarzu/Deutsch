@@ -509,3 +509,31 @@ geschrien
 h
 krzyczeć
 }
+{
+schweigen
+schwieg
+geschwiegen
+h
+milczeć
+}
+{
+senden
+sandte
+gesandt
+h
+wysyłać
+}
+{
+sinken
+sank
+gesunken
+s
+obniżać się/opadać/zatonąć
+}
+{
+sollen
+sollte
+gesollt
+h
+mieć powinność
+}
