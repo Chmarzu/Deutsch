@@ -132,6 +132,12 @@ mąka
 }
 {
 s
+Öl
+Öle
+olej
+}
+{
+s
 Ei
 Eier
 jajko
