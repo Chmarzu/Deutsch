@@ -4,8 +4,9 @@
 #include <ctime>
 #include <string>
 #include <windows.h>
+
 #define BUFF 5
-#define NomenFilesNum 14 //number of files for function Nomen + 1
+#define NomenFilesNum 15 //number of files for function Nomen + 1
 #define VerbFilesNum 5  //number of files for function Verb + 1
 #define FAIL_NUM 2  //number of approved attempts
 
@@ -135,10 +136,14 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                     break;
 
                 case 12:
-                    cout << "Czesci ciala";
+                    cout << "Naczynia";
                     break;
 
                 case 13:
+                    cout << "Czesci ciala";
+                    break;
+
+                case 14:
                     cout << "Ubrania";
                     break;
             }
@@ -485,10 +490,14 @@ void Nomen_file_opener(int &mode, fstream &source) {
             break;
 
         case 13:
-            source.open("data\\Nomen\\body.txt",ios::in);
+            source.open("data\\Nomen\\Geschirr.txt",ios::in);
             break;
 
         case 14:
+            source.open("data\\Nomen\\body.txt",ios::in);
+            break;
+
+        case 15:
             source.open("data\\Nomen\\kleidung.txt",ios::in);
             break;
     }
