@@ -77,8 +77,6 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
     bool opt[4] = {false, true, false, false}; /*visibility of word's data*/
-    //bool rand_file = false /*for randomised file source*/, fail = false /*mistake in answers indicator*/;
-    //short fail_num;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
@@ -516,8 +514,6 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool r
         string infinitiv, imperfekt, partizip_perfekt, hilfsverb, transl;
     } buffer[BUFF];
     bool opt[5] = {true, false, false, false, false}; /*visibility of word's data*/
-    //bool rand_file = false /*for randomised file source*/, fail = false /*mistake in answers indicator*/;
-    //short fail_num;
 
     do {
         cout << endl << "Ustawienia: 0" << endl << endl;
