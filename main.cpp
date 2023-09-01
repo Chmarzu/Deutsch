@@ -500,7 +500,7 @@ void Nomen_file_opener(int &mode, fstream &source) {
             break;
 
         case 15:
-            source.open("data\\Nomen\\body.txt",ios::in);
+            source.open("data\\Nomen\\Körper.txt",ios::in);
             break;
 
         case 16:
