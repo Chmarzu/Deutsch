@@ -17,6 +17,12 @@ Husten
 kaszel
 }
 {
+r
+Schmerz
+Schmerzen
+ból
+}
+{
 e
 Gesundheit
 -

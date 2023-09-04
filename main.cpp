@@ -6,7 +6,7 @@
 #include <windows.h>
 
 #define BUFF 5
-#define NomenFilesNum 17 //number of files for function Nomen + 1
+#define NomenFilesNum 18 //number of files for function Nomen + 1
 #define VerbFilesNum 5  //number of files for function Verb + 1
 #define FAIL_NUM 2  //number of approved attempts
 
@@ -150,6 +150,10 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                     break;
 
                 case 16:
+                    cout << "Lekarstwa";
+                    break;
+
+                case 17:
                     cout << "Ubrania";
                     break;
             }
@@ -512,6 +516,10 @@ void Nomen_file_opener(int &mode, fstream &source) {
             break;
 
         case 17:
+            source.open("data\\Nomen\\Medikamenten.txt",ios::in);
+            break;
+
+        case 18:
             source.open("data\\Nomen\\kleidung.txt",ios::in);
             break;
     }

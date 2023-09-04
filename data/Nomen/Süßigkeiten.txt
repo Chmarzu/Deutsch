@@ -95,7 +95,7 @@ Plätzchen
 ciastko
 }
 {
-s
+r/s
 Bonbon
 Bonbons
 cukierek

@@ -1,0 +1,54 @@
+{
+r
+Hustenbonbon
+Hustenbonbons
+cukierek na kaszel
+}
+{
+r
+Hustentee
+Hustentees
+herbata na kaszel
+}
+{
+r
+Verband
+Verbände
+opatrunek
+}
+{
+e
+Medizin
+Medizinen
+lekarstwo
+}
+{
+e
+Tablette
+Tabletten
+tabletka
+}
+{
+s
+Medikament
+Medikamente
+lekarstwo
+}
+{
+s
+Pflaster
+Pflaster
+plaster
+}
+{
+s
+Verbandszeug
+-
+materiał opatrunkowy
+}
+{
+Pl
+-
+Nasentropfen
+krople do nosa
+}
