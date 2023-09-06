@@ -234,16 +234,6 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
             do {
             randy[i] = rand() % maxnum / 6 + 1; //drawing a random number
 
-            if (i > 0 && rand_file == false) {  //duplicate check
-                for (j = 0; j < i; j++) {
-                    if (randy[i] == randy[j])
-                        break;
-                }
-            } else
-                break;
-            } while (j < i);
-
-
             for (j = 0; j < randy[i]; j++) {
                 getline(source, ans);
                 getline(source, buffer[i].article);
@@ -252,6 +242,18 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                 getline(source, buffer[i].transl);
                 getline(source, ans);
             }
+
+            source.close();
+            Nomen_file_opener(mode, source);
+
+            if (i > 0 && rand_file == false) {  //duplicate & impossible to answer records check
+                for (j = 0; j < i; j++) {
+                    if (randy[i] == randy[j] || (buffer[i].article == "Pl" && opt[2] == false && opt[3] == false))
+                        break;
+                }
+            } else
+                break;
+            } while (j < i);
 
             if (rand_file)
                 source.close();
@@ -668,12 +670,12 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool r
 
                     if (opt[1])
                         answer << buffer[i].imperfekt << " ";
-                    else if (opt[0])
+                    else if (opt[0] && (opt[2] || opt[3]))
                             answer << " ";
 
                     if (opt[2])
                         answer << buffer[i].partizip_perfekt << " ";
-                    else if (opt[0] || opt[1])
+                    else if (opt[0] || opt[1] && opt[3])
                             answer << " ";
 
                     if (opt[3])
