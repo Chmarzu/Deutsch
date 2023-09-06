@@ -447,12 +447,18 @@ void Nomen_options(int i, int j, int mode, bool *opt) {
 
         num = opt[0] + opt[1] + opt[2] + opt[3];
 
-        if (!mode && (!num || num == 4)) {
-            cout << endl << endl << "Niewlasciwa konfiguracja!" << endl
-            << "Przynajmniej jeden element musi zostac wyswietlony oraz program nie moze wyswietlic wszystkich elementow." << endl << endl;
-            Sleep(2000);
+        if (!mode) {
+            if (!num || num == 4) {
+                cout << endl << endl << "Niewlasciwa konfiguracja!" << endl
+                << "Przynajmniej jeden element musi zostac wyswietlony oraz program nie moze wyswietlic wszystkich elementow." << endl << endl;
+                Sleep(2000);
+            } else if (!opt[1] && !opt[2] && !opt[3]) {
+                cout << endl << endl << "Musi zostac wybrana jedna z opcji: 2-4." << endl << endl;
+                Sleep(2000);
+            }
         }
-    } while (mode || !num || num == 4);
+
+    } while (mode || !num || num == 4 || !opt[1] && !opt[2] && !opt[3]);
 }
 
 void Nomen_file_opener(int &mode, fstream &source) {
@@ -887,12 +893,17 @@ void Verb_options(int i, int j, int mode, bool *opt) {
 
         num = opt[0] + opt[1] + opt[2] + opt[3] + opt[4];
 
-        if (!mode && (!num || num == 5)) {
-            cout << endl << endl << "Niewlasciwa konfiguracja!" << endl
-            << "Przynajmniej jeden element musi zostac wyswietlony oraz program nie moze wyswietlic wszystkich elementow." << endl << endl;
-            Sleep(2000);
+        if (!mode) {
+            if (!num || num == 5) {
+                cout << endl << endl << "Niewlasciwa konfiguracja!" << endl
+                << "Przynajmniej jeden element musi zostac wyswietlony oraz program nie moze wyswietlic wszystkich elementow." << endl << endl;
+                Sleep(2000);
+            } else if (!opt[0] && !opt[1] && !opt[2] && !opt[4]) {
+                cout << endl << endl << "Musi zostac wybrana jedna z opcji: 1-3 lub 5." << endl << endl;
+                Sleep(2000);
+            }
         }
-    } while (mode || !num || num == 5);
+    } while (mode || !num || num == 5 || !opt[0] && !opt[1] && !opt[2] && !opt[4]);
 }
 
 void Verb_file_opener(int &mode, fstream &source) {
