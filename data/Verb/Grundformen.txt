@@ -204,7 +204,7 @@ odpowiadać
 {
 entstehen
 entstand
-entstaden
+entstanden
 s
 powstawać
 }
