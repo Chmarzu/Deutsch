@@ -378,6 +378,8 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                         } while(mode && fail_num < FAIL_NUM + 1);
                     }
 
+                    fail_num = 0;
+
                     source.close();
                 }
             }
@@ -791,6 +793,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
                         screen_cleaner(i, 70);
                     } while(mode && fail_num < FAIL_NUM + 1);
                 }
+
+                fail_num = 0;
 
                 source.close();
             }
