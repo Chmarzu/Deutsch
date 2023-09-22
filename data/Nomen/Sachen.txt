@@ -29,6 +29,18 @@ Töpfe
 garnek
 }
 {
+r
+Koffer
+Koffer
+walizka
+}
+{
+r
+Wecker
+Wecker
+budzik
+}
+{
 e
 Sache
 Sachen
@@ -63,6 +75,12 @@ e
 Kamera
 Kameras
 kamera
+}
+{
+e
+Chip-Karte
+Chip-Karten
+karta zbliżeniowa
 }
 {
 s

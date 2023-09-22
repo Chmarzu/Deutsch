@@ -1,5 +1,11 @@
 {
 r
+Brief
+Briefe
+list
+}
+{
+r
 Name
 Namen
 imię
