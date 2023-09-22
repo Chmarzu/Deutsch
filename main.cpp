@@ -6,29 +6,34 @@
 #include <windows.h>
 
 #define BUFF 5
-#define NomenFilesNum 18 //number of files for function Nomen + 1
+#define NomenFilesNum 21 //number of files for function Nomen + 1
+#define NomenMainOpt 14 //options in main menu in Nomen
 #define VerbFilesNum 5  //number of files for function Verb + 1
 #define FAIL_NUM 2  //number of approved attempts
 
 using namespace std;
 
-void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool rand_file, bool fail, fstream &source, fstream &answer, string ans);
+void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans);
+int Sachen(int i, int mode);
+int Essen(int i, int mode);
 void Nomen_options(int i, int j, int mode, bool *opt);
 void Nomen_file_opener(int &mode, fstream &source);
 
-void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
+void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
 void Verb_options(int i, int j, int mode, bool *opt);
 void Verb_file_opener(int &mode, fstream &source);
 
 void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
 void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+
+int file_manager(int maxnum, int record_size, fstream &source, string ans);
 void screen_cleaner(int i, int line);
 
 int main() {
     srand (time(NULL));
     int i, j, mode /*control over flow of program*/, maxnum /*amount of words from a file*/, randy[BUFF] /*array of randomly generated words (indexes)*/;
     short fail_num;
-    bool rand_file = false /*for randomised file source*/, fail = false /*mistake in answers indicator*/;
+    bool finished = true /*indicates if a mode can be finished*/, rand_file = false /*for randomised file source*/, fail = false /*mistake in answers indicator*/;
     fstream source /*file from database*/, answer /*UI file*/;
     string ans /*for answer check*/;
 
@@ -47,11 +52,11 @@ int main() {
 
         switch (mode) {
         case 1:
-            Nomen(i, j, mode, maxnum, &randy[0], fail_num, rand_file, fail, source, answer, ans);
+            Nomen(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
        case 2:
-            Verb(i, j, mode, maxnum, &randy[0], fail_num, rand_file, fail,  source, answer, ans);
+            Verb(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail,  source, answer, ans);
             break;
 
         case 3:
@@ -72,338 +77,337 @@ int main() {
     return 0;
 }
 
-void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
+void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
     struct word {   //info about word
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
     bool opt[4] = {false, true, false, false}; /*visibility of word's data*/
 
     do {
-        cout << endl << "Ustawienia: 0" << endl << endl;
+        do {
+            cout << endl << "Ustawienia: 0" << endl << endl;
 
-        cout << "Wybierz zakres slownictwa:";
-        for (i = 0; i < NomenFilesNum; i++) {
-        cout << endl << i + 1 << ") ";
-            switch (i) {
-                case 0:
-                    cout << "Wszystko";
-                    break;
+            cout << "Wybierz zakres slownictwa:";
+            for (i = 0; i < NomenMainOpt; i++) {
+            cout << endl << i + 1 << ") ";
+                switch (i) {
+                    case 0:
+                        cout << "Wszystko";
+                        break;
 
-                case 1:
-                    cout << "Kartka pocztowa";
-                    break;
+                    case 1:
+                        cout << "Kartka pocztowa";
+                        break;
 
-                case 2:
-                    cout << "Ludzie";
-                    break;
+                    case 2:
+                        cout << "Ludzie";
+                        break;
 
-                case 3:
-                    cout << "Rodzina";
-                    break;
+                    case 3:
+                        cout << "Rodzina";
+                        break;
 
-                case 4:
-                    cout << "Rzeczy";
-                    break;
+                    case 4:
+                        cout << "Rzeczy (kategoria)";
+                        break;
 
-                case 5:
-                    cout << "Meble";
-                    break;
+                    case 5:
+                        cout << "Jedzenie (kategoria)";
+                        break;
 
-                case 6:
-                    cout << "Jedzenie (ogolne)";
-                    break;
+                    case 6:
+                        cout << "Napoje";
+                        break;
 
-                case 7:
-                    cout << "Warzywa";
-                    break;
+                    case 7:
+                        cout << "Pomieszczenia";
+                        break;
 
-                case 8:
-                    cout << "Owoce";
-                    break;
+                    case 8:
+                        cout << "Czesci ciala";
+                        break;
 
-                case 9:
-                    cout << "Mieso";
-                    break;
+                    case 9:
+                        cout << "Choroby";
+                        break;
 
-                case 10:
-                    cout << "Slodycze";
-                    break;
+                    case 10:
+                        cout << "Lekarstwa";
+                        break;
 
-                case 11:
-                    cout << "Napoje";
-                    break;
+                    case 11:
+                        cout << "Budynek";
+                        break;
 
-                case 12:
-                    cout << "Naczynia";
-                    break;
+                    case 12:
+                        cout << "Miasto";
+                        break;
 
-                case 13:
-                    cout << "Pomieszczenia";
-                    break;
-
-                case 14:
-                    cout << "Czesci ciala";
-                    break;
-
-                case 15:
-                    cout << "Choroby";
-                    break;
-
-                case 16:
-                    cout << "Lekarstwa";
-                    break;
-
-                case 17:
-                    cout << "Ubrania";
-                    break;
-            }
-        }
-        cout << endl;
-
-        cout << "Powrot do  Menu Glownego: " << NomenFilesNum + 1 << endl;
-
-        cin >> mode;
-
-        screen_cleaner(i, 70);
-
-        if (!mode)
-            Nomen_options(i, j, mode, &opt[0]);
-        else if (mode < 1 || mode > NomenFilesNum + 1)
-            cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
-        } while (mode < 1 || mode > NomenFilesNum + 1);
-        cout << endl;
-
-        if  (mode != NomenFilesNum + 1) {
-            if (mode == 1)
-                rand_file = true;
-            else
-                Nomen_file_opener(mode, source);
-
-
-
-        if (!rand_file) {   //for non-random file
-            //file crash test
-            if(source.good() == false) {
-                cout << "Error! Source file doesn't exist!";
-                getchar();
-                exit(0);
-            }
-
-            //file contents check (amount of words)
-            while (getline(source, ans))
-                maxnum++;
-
-            if (maxnum % 6 >= 1) {
-                cout << "Error! Incorrect data file content!";
-                getchar();
-                exit(0);
-            }
-        }
-
-        //drawing a record
-        for (i = 0; i < BUFF; i++) {
-
-            if (rand_file) {    //for random file
-               do {
-                    mode = rand() % NomenFilesNum + 1;   //drawing a random file
-               } while (mode == 1);
-
-                Nomen_file_opener(mode, source);
-
-               //file crash test
-                if(source.good() == false) {
-                    cout << "Error! Source file doesn't exist!";
-                    getchar();
-                    exit(0);
-                }
-
-                //file contents check (amount of words)
-                while (getline(source, ans))
-                    maxnum++;
-
-                if (maxnum % 6 >= 1) {
-                    cout << "Error! Incorrect data file content!";
-                    getchar();
-                    exit(0);
-                }
-            }
-
-            source.close();
-            Nomen_file_opener(mode, source);
-
-            do {
-            randy[i] = rand() % maxnum / 6 + 1; //drawing a random number
-
-            for (j = 0; j < randy[i]; j++) {
-                getline(source, ans);
-                getline(source, buffer[i].article);
-                getline(source, buffer[i].noun_sg);
-                getline(source, buffer[i].noun_pl);
-                getline(source, buffer[i].transl);
-                getline(source, ans);
-            }
-
-            source.close();
-            Nomen_file_opener(mode, source);
-
-            if (i > 0 && rand_file == false) {  //duplicate & impossible to answer records check
-                for (j = 0; j < i; j++) {
-                    if (randy[i] == randy[j] || (buffer[i].article == "Pl" && opt[2] == false && opt[3] == false))
+                    case 13:
+                        cout << "Hobby";
                         break;
                 }
-            } else
-                break;
-            } while (j < i);
+            }
+            cout << endl << endl;
 
-            if (rand_file)
-                source.close();
-        }
+            cout << "Powrot do  Menu Glownego: " << NomenMainOpt + 1 << endl;
 
-        //user interface
-        answer.open("program.txt",ios::out);
-
-        for (i = 0; i < BUFF; i++) {
-            answer << i + 1 << ") ";
-            if (opt[0])
-                answer << buffer[i].article << " ";
-            if (opt[1])
-                answer << buffer[i].noun_sg;
-            if (opt[2])
-                answer << " (" << buffer[i].noun_pl << ")";
-            if (opt[3])
-                answer << " - " << buffer[i].transl;
-            answer << endl;
-        }
-
-        for (i = 0; i < BUFF; i++) {
-            answer << i + 1 << ") " << endl;
-            if (!opt[0])
-                answer << "Rodzajnik:" << endl << endl;
-            if (!opt[1])
-                answer << "Rzeczownik (liczba pojedyncza):" << endl << endl;
-            if (!opt[2])
-                answer << "Rzeczownik (liczba mnoga):" << endl << endl;
-            if (!opt[3])
-                answer << "Tlumaczenie (PL):" << endl << endl;
-            answer << endl;
-        }
-
-        answer.close();
-
-        cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
-        << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
-        << "Format wczytywania rodzajnikow: der - r, die - e, das - s, liczba mnoga - Pl." << endl << endl
-        << "Powrot do Menu Rzeczownik: 0." << endl
-        << "Aby kontyunowac wprowadz: 1" << endl;
-
-        do {
             cin >> mode;
 
-            if (mode < 0 || mode > 1)
-                cout << endl << "Bledna wartosc!" << endl << endl;
-        } while(mode < 0 || mode > 1);
+            screen_cleaner(i, 70);
 
-        screen_cleaner(i, 70);
+            if (!mode && mode != 5 && mode != 6)    //should possibly be changed so as to avoid adding more cases
+                Nomen_options(i, j, mode, &opt[0]);
+            else if (mode < 1 || mode > NomenMainOpt + 1)
+                cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
+            } while (mode < 1 || mode > NomenMainOpt + 1);
+            cout << endl;
 
-            if (mode == 1) {
-                do {
-                    answer.open("program.txt",ios::in);
+            if  (mode == NomenMainOpt + 1)
+                finished = false;
+            else {
+                if (mode == 1)
+                    rand_file = true;
+                else if (mode == 5)
+                    mode = Sachen(i, mode);
+                else if (mode == 6)
+                    mode = Essen(i, mode);
+                else {
+                    switch (mode) {
+                        case 7:
+                            mode = 12;
+                            break;
 
-                    for (i = 0; i < BUFF + 3; i++)
-                        getline (answer, ans);
+                        case 8:
+                            mode = 14;
+                            break;
 
-                    for (i = 0; i < BUFF; i++) {
-                        cout << i + 1 << ")" << endl;
+                        case 9:
+                            mode = 15;
+                            break;
 
-                        if (!opt[0]) {
-                            cout << "Rodzajnik: ";
-                            if (ans.compare(buffer[i].article) != 0) {
-                                    cout << "X Falsch";
-                                    if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].article;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                            cout << endl;
-                        }
+                        case 10:
+                            mode = 16;
+                            break;
 
-                        if (!opt[1]) {
-                            if (!opt[0]) {
-                                for (j = 0; j < 2; j++)
-                                    getline (answer, ans);
-                            }
+                        case 11:
+                            mode = 17;
+                            break;
 
-                            cout << "Rzeczownik (liczba pojedyncza): ";
-                            if (ans.compare(buffer[i].noun_sg) != 0) {
-                                    cout << "X Falsch";
-                                    if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].noun_sg;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                            cout << endl;
-                        }
+                        case 12:
+                            mode = 19;
+                            break;
 
-                        if (!opt[2]) {
-                            if (!opt[0] || !opt[1]) {
-                                for (j = 0; j < 2; j++)
-                                    getline (answer, ans);
-                            }
+                        case 13:
+                            mode = 20;
+                            break;
 
-                            cout << "Rzeczownik (liczba mnoga): ";
-                            if (ans.compare(buffer[i].noun_pl) != 0) {
-                                    cout << "X Falsch";
-                                    if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].noun_pl;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                            cout << endl;
-                        }
+                        case 14:
+                            mode = 21;
+                            break;
+                    }
+                }
 
-                        if (!opt[3]) {
-                            if (!opt[0] || !opt[1] || !opt[2]) {
-                                for (j = 0; j < 2; j++)
-                                    getline (answer, ans);
-                            }
+                Nomen_file_opener(mode, source);
 
-                            cout << "Tlumaczenie: ";
-                            if (ans.compare(buffer[i].transl) != 0) {
-                                    cout << "X Falsch";
-                                    if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].transl;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                            cout << endl;
-                        }
 
-                        for (j = 0; j < 4; j++)
-                            getline (answer, ans);
+            if (mode != NomenFilesNum + 1) {
+                if (!rand_file)     //for non-random file
+                    maxnum = file_manager(maxnum, 6, source, ans);
+
+                //drawing a record
+                for (i = 0; i < BUFF; i++) {
+
+                    if (rand_file) {    //for random file
+                       do {
+                            mode = rand() % NomenFilesNum + 1;   //drawing a random file
+                       } while (mode == 1);
+
+                       Nomen_file_opener(mode, source);
+
+                       maxnum = file_manager(maxnum, 6, source, ans);
                     }
 
-                    answer.close();
+                    source.close();
+                    Nomen_file_opener(mode, source);
 
-                    if (fail) {
-                        fail_num++;
+                    do {
+                    randy[i] = rand() % maxnum / 6 + 1; //drawing a random number
 
-                        if (fail_num < 2)
-                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
-                        else if (fail_num == 2)
-                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
-                        else
-                            cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                    for (j = 0; j < randy[i]; j++) {
+                        getline(source, ans);
+                        getline(source, buffer[i].article);
+                        getline(source, buffer[i].noun_sg);
+                        getline(source, buffer[i].noun_pl);
+                        getline(source, buffer[i].transl);
+                        getline(source, ans);
+                    }
 
-                        fail = false;
-                    } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                    source.close();
+                    Nomen_file_opener(mode, source);
 
+                    if (i > 0 && rand_file == false) {  //duplicate & impossible to answer records check
+                        for (j = 0; j < i; j++) {
+                            if (randy[i] == randy[j] || (buffer[i].article == "Pl" && opt[2] == false && opt[3] == false))
+                                break;
+                        }
+                    } else
+                        break;
+                    } while (j < i);
+
+                    if (rand_file)
+                        source.close();
+                }
+
+                //user interface
+                answer.open("program.txt",ios::out);
+
+                for (i = 0; i < BUFF; i++) {
+                    answer << i + 1 << ") ";
+                    if (opt[0])
+                        answer << buffer[i].article << " ";
+                    if (opt[1])
+                        answer << buffer[i].noun_sg;
+                    if (opt[2])
+                        answer << " (" << buffer[i].noun_pl << ")";
+                    if (opt[3])
+                        answer << " - " << buffer[i].transl;
+                    answer << endl;
+                }
+
+                for (i = 0; i < BUFF; i++) {
+                    answer << i + 1 << ") " << endl;
+                    if (!opt[0])
+                        answer << "Rodzajnik:" << endl << endl;
+                    if (!opt[1])
+                        answer << "Rzeczownik (liczba pojedyncza):" << endl << endl;
+                    if (!opt[2])
+                        answer << "Rzeczownik (liczba mnoga):" << endl << endl;
+                    if (!opt[3])
+                        answer << "Tlumaczenie (PL):" << endl << endl;
+                    answer << endl;
+                }
+
+                answer.close();
+
+                cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
+                << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
+                << "Format wczytywania rodzajnikow: der - r, die - e, das - s, liczba mnoga - Pl." << endl << endl
+                << "Powrot do Menu Glownego: 0." << endl
+                << "Aby kontyunowac wprowadz: 1" << endl;
+
+                do {
                     cin >> mode;
 
                     if (mode < 0 || mode > 1)
                         cout << endl << "Bledna wartosc!" << endl << endl;
+                } while(mode < 0 || mode > 1);
 
-                    screen_cleaner(i, 70);
-                } while(mode && fail_num < FAIL_NUM + 1);
+                screen_cleaner(i, 70);
+
+                    if (mode == 1) {
+                        do {
+                            answer.open("program.txt",ios::in);
+
+                            for (i = 0; i < BUFF + 3; i++)
+                                getline (answer, ans);
+
+                            for (i = 0; i < BUFF; i++) {
+                                cout << i + 1 << ")" << endl;
+
+                                if (!opt[0]) {
+                                    cout << "Rodzajnik: ";
+                                    if (ans.compare(buffer[i].article) != 0) {
+                                            cout << "X Falsch";
+                                            if (fail_num == FAIL_NUM)
+                                                cout << "   " << buffer[i].article;
+                                            fail = true;
+                                    } else cout << "V Richtig";
+                                    cout << endl;
+                                }
+
+                                if (!opt[1]) {
+                                    if (!opt[0]) {
+                                        for (j = 0; j < 2; j++)
+                                            getline (answer, ans);
+                                    }
+
+                                    cout << "Rzeczownik (liczba pojedyncza): ";
+                                    if (ans.compare(buffer[i].noun_sg) != 0) {
+                                            cout << "X Falsch";
+                                            if (fail_num == FAIL_NUM)
+                                                cout << "   " << buffer[i].noun_sg;
+                                            fail = true;
+                                    } else cout << "V Richtig";
+                                    cout << endl;
+                                }
+
+                                if (!opt[2]) {
+                                    if (!opt[0] || !opt[1]) {
+                                        for (j = 0; j < 2; j++)
+                                            getline (answer, ans);
+                                    }
+
+                                    cout << "Rzeczownik (liczba mnoga): ";
+                                    if (ans.compare(buffer[i].noun_pl) != 0) {
+                                            cout << "X Falsch";
+                                            if (fail_num == FAIL_NUM)
+                                                cout << "   " << buffer[i].noun_pl;
+                                            fail = true;
+                                    } else cout << "V Richtig";
+                                    cout << endl;
+                                }
+
+                                if (!opt[3]) {
+                                    if (!opt[0] || !opt[1] || !opt[2]) {
+                                        for (j = 0; j < 2; j++)
+                                            getline (answer, ans);
+                                    }
+
+                                    cout << "Tlumaczenie: ";
+                                    if (ans.compare(buffer[i].transl) != 0) {
+                                            cout << "X Falsch";
+                                            if (fail_num == FAIL_NUM)
+                                                cout << "   " << buffer[i].transl;
+                                            fail = true;
+                                    } else cout << "V Richtig";
+                                    cout << endl;
+                                }
+
+                                for (j = 0; j < 4; j++)
+                                    getline (answer, ans);
+                            }
+
+                            answer.close();
+
+                            if (fail) {
+                                fail_num++;
+
+                                if (fail_num < 2)
+                                    cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                                else if (fail_num == 2)
+                                    cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                                else
+                                    cout << endl << "Powrot do Menu Glownego: 0" << endl;
+
+                                fail = false;
+                            } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+
+                            cin >> mode;
+
+                            if (mode < 0 || mode > 1)
+                                cout << endl << "Bledna wartosc!" << endl << endl;
+
+                            screen_cleaner(i, 70);
+                        } while(mode && fail_num < FAIL_NUM + 1);
+                    }
+
+                    fail_num = 0;
+
+                    source.close();
+                }
             }
-
-            source.close();
-        }
+        } while (finished);
 }
 
 void Nomen_options(int i, int j, int mode, bool *opt) {
@@ -530,320 +534,425 @@ void Nomen_file_opener(int &mode, fstream &source) {
         case 18:
             source.open("data\\Nomen\\kleidung.txt",ios::in);
             break;
+
+        case 19:
+            source.open("data\\Nomen\\Gebäude.txt",ios::in);
+            break;
+
+        case 20:
+            source.open("data\\Nomen\\Stadt.txt",ios::in);
+            break;
+
+        case 21:
+            source.open("data\\Nomen\\Hobby.txt",ios::in);
+            break;
     }
 }
 
-void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
+void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
     struct word {   //info about word
         string infinitiv, imperfekt, partizip_perfekt, hilfsverb, transl;
     } buffer[BUFF];
     bool opt[5] = {true, false, false, false, false}; /*visibility of word's data*/
 
     do {
-        cout << endl << "Ustawienia: 0" << endl << endl;
+        do {
+            cout << endl << "Ustawienia: 0" << endl << endl;
 
-        cout << "Wybierz zakres slownictwa:";
-        for (i = 0; i < VerbFilesNum; i++) {
-        cout << endl << i + 1 << ") ";
-            switch (i) {
-                case 0:
-                    cout << "Wszystko";
-                    break;
+            cout << "Wybierz zakres slownictwa:";
+            for (i = 0; i < VerbFilesNum; i++) {
+            cout << endl << i + 1 << ") ";
+                switch (i) {
+                    case 0:
+                        cout << "Wszystko";
+                        break;
 
-                case 1:
-                    cout << "Czasowniki slabe";
-                    break;
+                    case 1:
+                        cout << "Czasowniki slabe";
+                        break;
 
-                case 2:
-                    cout << "Czasowniki mocne";
-                    break;
+                    case 2:
+                        cout << "Czasowniki mocne";
+                        break;
 
-                case 3:
-                    cout << "Czasowniki z sein";
-                    break;
+                    case 3:
+                        cout << "Czasowniki z sein";
+                        break;
 
-                case 4:
-                    cout << "Formy podstawowe";
-                    break;
+                    case 4:
+                        cout << "Formy podstawowe";
+                        break;
+                }
             }
-        }
-        cout << endl;
+            cout << endl << endl;
 
-        cout << "Powrot do  Menu Glownego: " << VerbFilesNum + 1 << endl;
+            cout << "Powrot do  Menu Glownego: " << VerbFilesNum + 1 << endl;
 
-        cin >> mode;
-
-        screen_cleaner(i, 70);
-
-        if (!mode)
-            Verb_options(i, j, mode, &opt[0]);
-        else if (mode < 1 || mode > VerbFilesNum + 1)
-            cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
-        } while (mode < 1 || mode > VerbFilesNum + 1);
-        cout << endl;
-
-        if  (mode != VerbFilesNum + 1) {
-            if (mode == 1)
-                rand_file = true;
-            else
-                Verb_file_opener(mode, source);
-
-            if (!rand_file) {   //for non-random file
-                    //file crash test
-                    if(source.good() == false) {
-                        cout << "Error! Source file doesn't exist!";
-                        getchar();
-                        exit(0);
-                    }
-
-                    //file contents check (amount of words)
-                    while (getline(source, ans))
-                        maxnum++;
-
-                    if (maxnum % 7 >= 1) {
-                        cout << "Error! Incorrect data file content!";
-                        getchar();
-                        exit(0);
-                    }
-            }
-
-            //drawing a record
-            for (i = 0; i < BUFF; i++) {
-
-                if (rand_file) {    //for random file
-                   do {
-                        mode = rand() % VerbFilesNum + 1;   //drawing a random file
-                   } while (mode == 1);
-
-                    Verb_file_opener(mode, source);
-
-                   //file crash test
-                    if(source.good() == false) {
-                        cout << "Error! Source file doesn't exist!";
-                        getchar();
-                        exit(0);
-                    }
-
-                    //file contents check (amount of words)
-                    while (getline(source, ans))
-                        maxnum++;
-
-                    if (maxnum % 7 >= 1) {
-                        cout << "Error! Incorrect data file content!";
-                        getchar();
-                        exit(0);
-                    }
-                }
-
-                source.close();
-                Verb_file_opener(mode, source);
-
-                do {
-                randy[i] = rand() % maxnum / 7 + 1; //drawing a random number
-
-                if (i > 0 && rand_file == false) {  //duplicate check
-                    for (j = 0; j < i; j++) {
-                        if (randy[i] == randy[j])
-                            break;
-                    }
-                } else
-                    break;
-                } while (j < i);
-
-
-                for (j = 0; j < randy[i]; j++) {
-                    getline(source, ans);
-                    getline(source, buffer[i].infinitiv);
-                    getline(source, buffer[i].imperfekt);
-                    getline(source, buffer[i].partizip_perfekt);
-                    getline(source, buffer[i].hilfsverb);
-                    getline(source, buffer[i].transl);
-                    getline(source, ans);
-                }
-
-                if (rand_file)
-                    source.close();
-            }
-
-            //user interface
-            answer.open("program.txt",ios::out);
-
-            for (i = 0; i < BUFF; i++) {
-                    answer << i + 1 << ") ";
-
-                    if (opt[0])
-                        answer << buffer[i].infinitiv << " ";
-
-                    if (opt[1])
-                        answer << buffer[i].imperfekt << " ";
-                    else if (opt[0] && (opt[2] || opt[3]))
-                            answer << " ";
-
-                    if (opt[2])
-                        answer << buffer[i].partizip_perfekt << " ";
-                    else if (opt[0] || opt[1] && opt[3])
-                            answer << " ";
-
-                    if (opt[3])
-                        answer << buffer[i].hilfsverb << " ";
-                    else if (opt[0] || opt[1] || opt[2])
-                            answer << " ";
-
-                    if (opt[4])
-                        answer << " - " << buffer[i].transl;
-                    answer << endl;
-                }
-
-                for (i = 0; i < BUFF; i++) {
-                    answer << i + 1 << ") " << endl;
-                    if (!opt[0])
-                        answer << "Bezokolicznik (Infinitiv):" << endl << endl;
-                    if (!opt[1])
-                        answer << "Partizip I:" << endl << endl;
-                    if (!opt[2])
-                        answer << "Partizip II:" << endl << endl;
-                    if (!opt[3])
-                        answer << "Czasownik pomocniczy:" << endl << endl;
-                    if (!opt[4])
-                        answer << "Tlumaczenie (PL):" << endl << endl;
-                    answer << endl;
-                }
-
-                answer.close();
-
-                cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
-                << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
-                << "Format wczytywania czasownikow pomocniczych: haben - h, sein - s." << endl << endl
-                << "Powrot do Menu Czasownik: 0." << endl
-                << "Aby kontyunowac wprowadz: 1" << endl;
-
-            for (i = 0; i < BUFF; i++)
-                answer << buffer[i].infinitiv << " - " << buffer[i].transl << endl;
-
-            do {
-                    cin >> mode;
-
-                    if (mode < 0 || mode > 1)
-                        cout << endl << "Bledna wartosc!" << endl << endl;
-                } while(mode < 0 || mode > 1);
+            cin >> mode;
 
             screen_cleaner(i, 70);
 
-            if (mode == 1) {
-                do {
-                    answer.open("program.txt",ios::in);
+            if (!mode)
+                Verb_options(i, j, mode, &opt[0]);
+            else if (mode < 1 || mode > VerbFilesNum + 1)
+                cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
+            } while (mode < 1 || mode > VerbFilesNum + 1);
+            cout << endl;
 
-                    for (i = 0; i < BUFF + 3; i++)
-                        getline (answer, ans);
+            if  (mode == VerbFilesNum + 1)
+                finished = false;
+            else {
+                if (mode == 1)
+                    rand_file = true;
+                else
+                    Verb_file_opener(mode, source);
+
+                if (!rand_file)     //for non-random file
+                    maxnum = file_manager(maxnum, 7, source, ans);
+
+                //drawing a record
+                for (i = 0; i < BUFF; i++) {
+
+                    if (rand_file) {    //for random file
+                       do {
+                            mode = rand() % VerbFilesNum + 1;   //drawing a random file
+                       } while (mode == 1);
+
+                       Verb_file_opener(mode, source);
+
+                       maxnum = file_manager(maxnum, 7, source, ans);
+                    }
+
+                    source.close();
+                    Verb_file_opener(mode, source);
+
+                    do {
+                    randy[i] = rand() % maxnum / 7 + 1; //drawing a random number
+
+                    if (i > 0 && rand_file == false) {  //duplicate check
+                        for (j = 0; j < i; j++) {
+                            if (randy[i] == randy[j])
+                                break;
+                        }
+                    } else
+                        break;
+                    } while (j < i);
+
+
+                    for (j = 0; j < randy[i]; j++) {
+                        getline(source, ans);
+                        getline(source, buffer[i].infinitiv);
+                        getline(source, buffer[i].imperfekt);
+                        getline(source, buffer[i].partizip_perfekt);
+                        getline(source, buffer[i].hilfsverb);
+                        getline(source, buffer[i].transl);
+                        getline(source, ans);
+                    }
+
+                    if (rand_file)
+                        source.close();
+                }
+
+                //user interface
+                answer.open("program.txt",ios::out);
+
+                for (i = 0; i < BUFF; i++) {
+                        answer << i + 1 << ") ";
+
+                        if (opt[0])
+                            answer << buffer[i].infinitiv << " ";
+
+                        if (opt[1])
+                            answer << buffer[i].imperfekt << " ";
+                        else if (opt[0] && (opt[2] || opt[3]))
+                                answer << " ";
+
+                        if (opt[2])
+                            answer << buffer[i].partizip_perfekt << " ";
+                        else if (opt[0] || opt[1] && opt[3])
+                                answer << " ";
+
+                        if (opt[3])
+                            answer << buffer[i].hilfsverb << " ";
+                        else if (opt[0] || opt[1] || opt[2])
+                                answer << " ";
+
+                        if (opt[4])
+                            answer << " - " << buffer[i].transl;
+                        answer << endl;
+                    }
 
                     for (i = 0; i < BUFF; i++) {
-                        cout << i + 1 << ")" << endl;
-
-                        if (!opt[0]) {
-                            cout << "Bezokolicznik (Infinitiv): ";
-                            if (ans.compare(buffer[i].infinitiv) != 0) {
-                                    cout << "X Falsch";
-                                    if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].infinitiv;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                            cout << endl;
-                        }
-
-                        if (!opt[1]) {
-                            if (!opt[0]) {
-                                for (j = 0; j < 2; j++)
-                                    getline (answer, ans);
-                            }
-
-                            cout << "Partizip I: ";
-                            if (ans.compare(buffer[i].imperfekt) != 0) {
-                                    cout << "X Falsch";
-                                    if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].imperfekt;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                            cout << endl;
-                        }
-
-                        if (!opt[2]) {
-                            if (!opt[0] || !opt[1]) {
-                                for (j = 0; j < 2; j++)
-                                    getline (answer, ans);
-                            }
-
-                            cout << "Partizip II: ";
-                            if (ans.compare(buffer[i].partizip_perfekt) != 0) {
-                                    cout << "X Falsch";
-                                    if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].partizip_perfekt;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                              cout << endl;
-                        }
-
-                        if (!opt[3]) {
-                            if (!opt[0] || !opt[1] || !opt[2]) {
-                                for (j = 0; j < 2; j++)
-                                    getline (answer, ans);
-                            }
-
-                            cout << "Czasownik pomocniczy: ";
-                            if (ans.compare(buffer[i].hilfsverb) != 0) {
-                                cout << "X Falsch";
-                                if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].hilfsverb;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                            cout << endl;
-                        }
-
-                        if (!opt[4]) {
-                            if (!opt[0] || !opt[1] || !opt[2] || !opt[3]) {
-                                for (j = 0; j < 2; j++)
-                                    getline (answer, ans);
-                            }
-
-                            cout << "Tlumaczenie: ";
-                            if (ans.compare(buffer[i].transl) != 0) {
-                                cout << "X Falsch";
-                                if (fail_num == FAIL_NUM)
-                                        cout << "   " << buffer[i].transl;
-                                    fail = true;
-                            } else cout << "V Richtig";
-                            cout << endl;
-                        }
-
-                        for (j = 0; j < 4; j++)
-                            getline (answer, ans);
+                        answer << i + 1 << ") " << endl;
+                        if (!opt[0])
+                            answer << "Bezokolicznik (Infinitiv):" << endl << endl;
+                        if (!opt[1])
+                            answer << "Partizip I:" << endl << endl;
+                        if (!opt[2])
+                            answer << "Partizip II:" << endl << endl;
+                        if (!opt[3])
+                            answer << "Czasownik pomocniczy:" << endl << endl;
+                        if (!opt[4])
+                            answer << "Tlumaczenie (PL):" << endl << endl;
+                        answer << endl;
                     }
 
                     answer.close();
 
-                    if (fail) {
-                        fail_num++;
+                    cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
+                    << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
+                    << "Format wczytywania czasownikow pomocniczych: haben - h, sein - s." << endl << endl
+                    << "Powrot do Menu Glownego: 0." << endl
+                    << "Aby kontyunowac wprowadz: 1" << endl;
 
-                        if (fail_num < 2)
-                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
-                        else if (fail_num == 2)
-                            cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
-                        else
-                            cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                for (i = 0; i < BUFF; i++)
+                    answer << buffer[i].infinitiv << " - " << buffer[i].transl << endl;
 
-                        fail = false;
-                    } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                do {
+                        cin >> mode;
 
-                    cin >> mode;
+                        if (mode < 0 || mode > 1)
+                            cout << endl << "Bledna wartosc!" << endl << endl;
+                    } while(mode < 0 || mode > 1);
 
-                    if (mode < 0 || mode > 1)
-                        cout << endl << "Bledna wartosc!" << endl << endl;
+                screen_cleaner(i, 70);
 
-                    screen_cleaner(i, 70);
-                } while(mode && fail_num < FAIL_NUM + 1);
+                if (mode == 1) {
+                    do {
+                        answer.open("program.txt",ios::in);
+
+                        for (i = 0; i < BUFF + 3; i++)
+                            getline (answer, ans);
+
+                        for (i = 0; i < BUFF; i++) {
+                            cout << i + 1 << ")" << endl;
+
+                            if (!opt[0]) {
+                                cout << "Bezokolicznik (Infinitiv): ";
+                                if (ans.compare(buffer[i].infinitiv) != 0) {
+                                        cout << "X Falsch";
+                                        if (fail_num == FAIL_NUM)
+                                            cout << "   " << buffer[i].infinitiv;
+                                        fail = true;
+                                } else cout << "V Richtig";
+                                cout << endl;
+                            }
+
+                            if (!opt[1]) {
+                                if (!opt[0]) {
+                                    for (j = 0; j < 2; j++)
+                                        getline (answer, ans);
+                                }
+
+                                cout << "Partizip I: ";
+                                if (ans.compare(buffer[i].imperfekt) != 0) {
+                                        cout << "X Falsch";
+                                        if (fail_num == FAIL_NUM)
+                                            cout << "   " << buffer[i].imperfekt;
+                                        fail = true;
+                                } else cout << "V Richtig";
+                                cout << endl;
+                            }
+
+                            if (!opt[2]) {
+                                if (!opt[0] || !opt[1]) {
+                                    for (j = 0; j < 2; j++)
+                                        getline (answer, ans);
+                                }
+
+                                cout << "Partizip II: ";
+                                if (ans.compare(buffer[i].partizip_perfekt) != 0) {
+                                        cout << "X Falsch";
+                                        if (fail_num == FAIL_NUM)
+                                            cout << "   " << buffer[i].partizip_perfekt;
+                                        fail = true;
+                                } else cout << "V Richtig";
+                                  cout << endl;
+                            }
+
+                            if (!opt[3]) {
+                                if (!opt[0] || !opt[1] || !opt[2]) {
+                                    for (j = 0; j < 2; j++)
+                                        getline (answer, ans);
+                                }
+
+                                cout << "Czasownik pomocniczy: ";
+                                if (ans.compare(buffer[i].hilfsverb) != 0) {
+                                    cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                            cout << "   " << buffer[i].hilfsverb;
+                                        fail = true;
+                                } else cout << "V Richtig";
+                                cout << endl;
+                            }
+
+                            if (!opt[4]) {
+                                if (!opt[0] || !opt[1] || !opt[2] || !opt[3]) {
+                                    for (j = 0; j < 2; j++)
+                                        getline (answer, ans);
+                                }
+
+                                cout << "Tlumaczenie: ";
+                                if (ans.compare(buffer[i].transl) != 0) {
+                                    cout << "X Falsch";
+                                    if (fail_num == FAIL_NUM)
+                                            cout << "   " << buffer[i].transl;
+                                        fail = true;
+                                } else cout << "V Richtig";
+                                cout << endl;
+                            }
+
+                            for (j = 0; j < 4; j++)
+                                getline (answer, ans);
+                        }
+
+                        answer.close();
+
+                        if (fail) {
+                            fail_num++;
+
+                            if (fail_num < 2)
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                            else if (fail_num == 2)
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                            else
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl;
+
+                            fail = false;
+                        } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+
+                        cin >> mode;
+
+                        if (mode < 0 || mode > 1)
+                            cout << endl << "Bledna wartosc!" << endl << endl;
+
+                        screen_cleaner(i, 70);
+                    } while(mode && fail_num < FAIL_NUM + 1);
+                }
+
+                fail_num = 0;
+
+                source.close();
             }
+        } while (finished);
+}
 
-            source.close();
+int Sachen(int i, int mode) {
+    cout << "Wybierz zakres slownictwa (Rzeczy) :";
+    for (i = 0; i < 4; i++) {
+        cout << endl << i + 1 << ") ";
+        switch (i) {
+            case 0:
+                cout << "Ogolne";
+                break;
+
+            case 1:
+                cout << "Meble";
+                break;
+
+            case 2:
+                cout << "Naczynia";
+                break;
+
+            case 3:
+                cout << "Ubrania";
+                break;
         }
+    }
+    cout << endl << endl;
+
+    cout << "Powrot do  Menu Glownego: 5" << endl;
+
+    cin >> mode;
+
+    switch (mode) {
+        case 1:
+            mode = 5;
+            break;
+
+        case 2:
+            mode = 6;
+            break;
+
+        case 3:
+            mode = 13;
+            break;
+
+        case 4:
+            mode = 18;
+            break;
+
+        case 5:
+            mode = NomenFilesNum + 1;
+            break;
+    }
+
+    screen_cleaner(i, 70);
+
+    return mode;
+}
+
+int Essen(int i, int mode) {
+    cout << "Wybierz zakres slownictwa (Jedzenie) :";
+    for (i = 0; i < 5; i++) {
+        cout << endl << i + 1 << ") ";
+        switch (i) {
+            case 0:
+                cout << "Ogolne";
+                break;
+
+            case 1:
+                cout << "Warzywa";
+                break;
+
+            case 2:
+                cout << "Owoce";
+                break;
+
+            case 3:
+                cout << "Mieso";
+                break;
+
+            case 4:
+                cout << "Slodycze";
+                break;
+        }
+    }
+    cout << endl << endl;
+
+    cout << "Powrot do  Menu Glownego: 6" << endl;
+
+    cin >> mode;
+
+    switch (mode) {
+        case 1:
+            mode = 7;
+            break;
+
+        case 2:
+            mode = 8;
+            break;
+
+        case 3:
+            mode = 9;
+            break;
+
+        case 4:
+            mode = 10;
+            break;
+
+        case 5:
+            mode = 11;
+            break;
+
+        case 6:
+            mode = NomenFilesNum + 1;
+            break;
+    }
+
+    screen_cleaner(i, 70);
+
+    return mode;
 }
 
 void Verb_options(int i, int j, int mode, bool *opt) {
@@ -1020,6 +1129,29 @@ void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fs
 
     source.close();
     answer.close();
+}
+
+int file_manager(int maxnum, int record_size, fstream &source, string ans) {
+    //record_size - amount of lines of which contains a record
+
+    //file crash test
+    if(source.good() == false) {
+        cout << "Error! Source file doesn't exist!";
+        getchar();
+        exit(0);
+    }
+
+    //file contents check (amount of words)
+    while (getline(source, ans))
+        maxnum++;
+
+    if (maxnum % record_size >= 1) {
+        cout << "Error! Incorrect data file content!";
+        getchar();
+        exit(0);
+    }
+
+    return maxnum;
 }
 
 //Funkcja "screen_cleaner" odpowiada za "czyszczenie ekranu" - przesuwanie modeu tak, aby nie bylo widac wczesniejszych, niepotrzebnych komunikatow.
