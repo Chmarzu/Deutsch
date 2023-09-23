@@ -9,6 +9,7 @@
 #define NomenFilesNum 21 //number of files for function Nomen + 1
 #define NomenMainOpt 14 //options in main menu in Nomen
 #define VerbFilesNum 5  //number of files for function Verb + 1
+#define AdjektivFilesNum 2  //number of files for function Adjektiv + 1
 #define FAIL_NUM 2  //number of approved attempts
 
 using namespace std;
@@ -23,7 +24,9 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
 void Verb_options(int i, int j, int mode, bool *opt);
 void Verb_file_opener(int &mode, fstream &source);
 
-void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
+void Adjektiv_options(int i, int j, int mode, bool *opt);
+void Adjektiv_file_opener(int &mode, fstream &source);
 
 void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
 void Praposition_options(int i, int j, int mode, bool *opt);
@@ -44,7 +47,7 @@ int main() {
 
     do {
         cout << "Wybierz tryb:" << endl << "1) Rzeczownik" << endl << "2) Czasownik" << endl
-        /*<< "3) Przymiotnik" << endl*/ << "4) Przyimek" << endl << "5) Rekcja" << endl << "6) Wyjscie z programu" << endl;
+        << "3) Przymiotnik" << endl << "4) Przyimek" << endl << "5) Rekcja" << endl << "6) Wyjscie z programu" << endl;
 
         do {
         cin >> mode;
@@ -65,7 +68,7 @@ int main() {
             break;
 
         case 3:
-            Adjektiv(i, j, mode, maxnum, &randy[0], source, answer, ans);
+            Adjektiv(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
         case 4:
@@ -1044,7 +1047,251 @@ void Verb_file_opener(int &mode, fstream &source) {
     }
 }
 
-void Adjektiv(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
+void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans) {
+    struct word {   //info about word
+        string adjektiv, transl;
+    } buffer[BUFF];
+    bool opt[2] = {true, false}; /*visibility of word's data*/
+
+    do {
+        do {
+            cout << endl << "Ustawienia: 0" << endl << endl;
+
+            cout << "Wybierz zakres slownictwa:";
+            for (i = 0; i < AdjektivFilesNum; i++) {
+            cout << endl << i + 1 << ") ";
+                switch (i) {
+                    case 0:
+                        cout << "Wszystko";
+                        break;
+
+                    case 1:
+                        cout << "Stan cywilny";
+                        break;
+                }
+            }
+            cout << endl << endl;
+
+            cout << "Powrot do  Menu Glownego: " << AdjektivFilesNum + 1 << endl;
+
+            cin >> mode;
+
+            screen_cleaner(i, 70);
+
+            if (!mode)
+                Adjektiv_options(i, j, mode, &opt[0]);
+            else if (mode < 1 || mode > AdjektivFilesNum + 1)
+                cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
+            } while (mode < 1 || mode > AdjektivFilesNum + 1);
+            cout << endl;
+
+            if  (mode == AdjektivFilesNum + 1)
+                finished = false;
+            else {
+                if (mode == 1)
+                    rand_file = true;
+                else
+                    Adjektiv_file_opener(mode, source);
+
+                if (!rand_file)     //for non-random file
+                    maxnum = file_manager(maxnum, 2, source, ans);
+
+                //drawing a record
+                for (i = 0; i < BUFF; i++) {
+
+                    if (rand_file) {    //for random file
+                       do {
+                            mode = rand() % AdjektivFilesNum + 1;   //drawing a random file
+                       } while (mode == 1);
+
+                       Adjektiv_file_opener(mode, source);
+
+                       maxnum = file_manager(maxnum, 2, source, ans);
+                    }
+
+                    source.close();
+                    Adjektiv_file_opener(mode, source);
+
+                    do {
+                    randy[i] = rand() % maxnum / 2 + 1; //drawing a random number
+
+                    if (i > 0 && rand_file == false) {  //duplicate check
+                        for (j = 0; j < i; j++) {
+                            if (randy[i] == randy[j])
+                                break;
+                        }
+                    } else
+                        break;
+                    } while (j < i);
+
+
+                    for (j = 0; j < randy[i]; j++) {
+                        getline(source, ans);
+                        getline(source, buffer[i].adjektiv);
+                        getline(source, buffer[i].transl);
+                        getline(source, ans);
+                    }
+
+                    if (rand_file)
+                        source.close();
+                }
+
+                //user interface
+                answer.open("program.txt",ios::out);
+
+                for (i = 0; i < BUFF; i++) {
+                        answer << i + 1 << ") ";
+
+                        if (opt[0])
+                            answer << buffer[i].adjektiv << " ";
+
+                        if (opt[1])
+                            answer << " - " << buffer[i].transl;
+                        answer << endl;
+                    }
+
+                    for (i = 0; i < BUFF; i++) {
+                        answer << i + 1 << ") " << endl;
+                        if (!opt[0])
+                            answer << "Przymiotnik:" << endl << endl;
+                        if (!opt[1])
+                            answer << "Tlumaczenie (PL):" << endl << endl;
+                        answer << endl;
+                    }
+
+                    answer.close();
+
+                    cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
+                    << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl << endl
+                    << "Powrot do Menu Glownego: 0." << endl
+                    << "Aby kontyunowac wprowadz: 1" << endl;
+
+                do {
+                        cin >> mode;
+
+                        if (mode < 0 || mode > 1)
+                            cout << endl << "Bledna wartosc!" << endl << endl;
+                    } while(mode < 0 || mode > 1);
+
+                screen_cleaner(i, 70);
+
+                if (mode == 1) {
+                    do {
+                        answer.open("program.txt",ios::in);
+
+                        for (i = 0; i < BUFF + 3; i++)
+                            getline (answer, ans);
+
+                        for (i = 0; i < BUFF; i++) {
+                            cout << i + 1 << ")" << endl;
+
+                            if (!opt[0]) {
+                                cout << "Przymiotnik: ";
+                                if (ans.compare(buffer[i].adjektiv) != 0) {
+                                        cout << "X Falsch";
+                                        if (fail_num == FAIL_NUM)
+                                            cout << "   " << buffer[i].adjektiv;
+                                        fail = true;
+                                } else cout << "V Richtig";
+                                cout << endl;
+                            }
+
+                            if (!opt[1]) {
+                                if (!opt[0]) {
+                                    for (j = 0; j < 2; j++)
+                                        getline (answer, ans);
+                                }
+
+                                cout << "Tlumaczenie: ";
+                                if (ans.compare(buffer[i].transl) != 0) {
+                                        cout << "X Falsch";
+                                        if (fail_num == FAIL_NUM)
+                                            cout << "   " << buffer[i].transl;
+                                        fail = true;
+                                } else cout << "V Richtig";
+                                cout << endl;
+                            }
+
+                            for (j = 0; j < 4; j++)
+                                getline (answer, ans);
+                        }
+
+                        answer.close();
+
+                        if (fail) {
+                            fail_num++;
+
+                            if (fail_num < 2)
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                            else if (fail_num == 2)
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                            else
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl;
+
+                            fail = false;
+                        } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+
+                        cin >> mode;
+
+                        if (mode < 0 || mode > 1)
+                            cout << endl << "Bledna wartosc!" << endl << endl;
+
+                        screen_cleaner(i, 70);
+                    } while(mode && fail_num < FAIL_NUM + 1);
+                }
+
+                fail_num = 0;
+
+                source.close();
+        }
+    } while (finished);
+}
+
+void Adjektiv_options(int i, int j, int mode, bool *opt) {
+    short num;
+
+    do {
+        cout << endl << "Ustawienia" << endl << endl;
+
+        cout << "1. Przyimek: ";
+        if (!opt[0])
+            cout << "wyl" << endl;
+        else
+            cout << "wl" << endl;
+
+        cout << "2. Tlumaczenie (PL): ";
+        if (!opt[1])
+            cout << "wyl" << endl;
+        else
+            cout << "wl" << endl;
+
+        cout << endl << "Wybierz numer elemntu, ktory chcesz zmodyfikowac." << endl << "Wcisnij \"0\", aby opuscic panel ustawien." << endl;
+
+        cin >> mode;
+
+        screen_cleaner(i, 70);
+
+        if (mode)
+            opt[mode-1] = !opt[mode-1];
+
+        num = opt[0] + opt[1];
+
+        if (!mode) {
+            if (!num || num == 2) {
+                cout << endl << endl << "Niewlasciwa konfiguracja!" << endl
+                << "Przynajmniej jeden element musi zostac wyswietlony oraz program nie moze wyswietlic wszystkich elementow." << endl << endl;
+                Sleep(2000);
+            }
+        }
+    } while (mode || !num || num == 2);
+}
+
+void Adjektiv_file_opener(int &mode, fstream &source) {
+    switch (mode) {
+        case 2:
+            source.open("data\\Adjektiv\\Familienstand.txt",ios::in);
+            break;
+    }
 }
 
 void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans) {
