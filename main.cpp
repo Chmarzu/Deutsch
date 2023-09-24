@@ -415,6 +415,8 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                     }
 
                     fail_num = 0;
+                    if (rand_file)
+                        rand_file = false;
 
                     source.close();
                 }
@@ -843,6 +845,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
                 }
 
                 fail_num = 0;
+                if (rand_file)
+                        rand_file = false;
 
                 source.close();
             }
@@ -1241,6 +1245,8 @@ void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bo
                 }
 
                 fail_num = 0;
+                if (rand_file)
+                        rand_file = false;
 
                 source.close();
         }
@@ -1357,7 +1363,7 @@ void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num,
                     if (rand_file) {    //for random file
                        do {
                             mode = rand() % 4;   //drawing a random file
-                       } while (mode == 1);
+                       } while (mode < 2);
 
                        Praposition_file_opener(mode, source);
 
@@ -1521,6 +1527,8 @@ void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num,
                 }
 
                 fail_num = 0;
+                if (rand_file)
+                        rand_file = false;
 
                 source.close();
             }
