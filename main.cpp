@@ -9,7 +9,7 @@
 #define NomenFilesNum 22 //number of files for function Nomen + 1
 #define NomenMainOpt 15 //options in main menu in Nomen
 #define VerbFilesNum 5  //number of files for function Verb + 1
-#define AdjektivFilesNum 2  //number of files for function Adjektiv + 1
+#define AdjektivFilesNum 3  //number of files for function Adjektiv + 1
 #define FAIL_NUM 2  //number of approved attempts
 
 using namespace std;
@@ -1084,6 +1084,10 @@ void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bo
                     case 1:
                         cout << "Stan cywilny";
                         break;
+
+                    case 2:
+                        cout << "Jedzenie";
+                        break;
                 }
             }
             cout << endl << endl;
@@ -1308,6 +1312,10 @@ void Adjektiv_file_opener(int &mode, fstream &source) {
     switch (mode) {
         case 2:
             source.open("data\\Adjektiv\\Familienstand.txt",ios::in);
+            break;
+
+        case 3:
+            source.open("data\\Adjektiv\\Essen.txt",ios::in);
             break;
     }
 }
