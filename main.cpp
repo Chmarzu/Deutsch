@@ -432,6 +432,124 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
         } while (finished);
 }
 
+int Sachen(int i, int mode) {
+    cout << "Wybierz zakres slownictwa (Rzeczy) :";
+    for (i = 0; i < 4; i++) {
+        cout << endl << i + 1 << ") ";
+        switch (i) {
+            case 0:
+                cout << "Ogolne";
+                break;
+
+            case 1:
+                cout << "Meble";
+                break;
+
+            case 2:
+                cout << "Naczynia";
+                break;
+
+            case 3:
+                cout << "Ubrania";
+                break;
+        }
+    }
+    cout << endl << endl;
+
+    cout << "Powrot do  Menu Rzeczownik: 5" << endl;
+
+    cin >> mode;
+
+    switch (mode) {
+        case 1:
+            mode = 5;
+            break;
+
+        case 2:
+            mode = 6;
+            break;
+
+        case 3:
+            mode = 13;
+            break;
+
+        case 4:
+            mode = 18;
+            break;
+
+        case 5:
+            mode = NomenFilesNum + 1;
+            break;
+    }
+
+    screen_cleaner(i, 70);
+
+    return mode;
+}
+
+int Essen(int i, int mode) {
+    cout << "Wybierz zakres slownictwa (Jedzenie) :";
+    for (i = 0; i < 5; i++) {
+        cout << endl << i + 1 << ") ";
+        switch (i) {
+            case 0:
+                cout << "Ogolne";
+                break;
+
+            case 1:
+                cout << "Warzywa";
+                break;
+
+            case 2:
+                cout << "Owoce";
+                break;
+
+            case 3:
+                cout << "Mieso";
+                break;
+
+            case 4:
+                cout << "Slodycze";
+                break;
+        }
+    }
+    cout << endl << endl;
+
+    cout << "Powrot do  Menu Rzeczownik: 6" << endl;
+
+    cin >> mode;
+
+    switch (mode) {
+        case 1:
+            mode = 7;
+            break;
+
+        case 2:
+            mode = 8;
+            break;
+
+        case 3:
+            mode = 9;
+            break;
+
+        case 4:
+            mode = 10;
+            break;
+
+        case 5:
+            mode = 11;
+            break;
+
+        case 6:
+            mode = NomenFilesNum + 1;
+            break;
+    }
+
+    screen_cleaner(i, 70);
+
+    return mode;
+}
+
 void Nomen_options(int i, int j, int mode, bool *opt) {
     short num;
 
@@ -863,124 +981,6 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
                 source.close();
             }
         } while (finished);
-}
-
-int Sachen(int i, int mode) {
-    cout << "Wybierz zakres slownictwa (Rzeczy) :";
-    for (i = 0; i < 4; i++) {
-        cout << endl << i + 1 << ") ";
-        switch (i) {
-            case 0:
-                cout << "Ogolne";
-                break;
-
-            case 1:
-                cout << "Meble";
-                break;
-
-            case 2:
-                cout << "Naczynia";
-                break;
-
-            case 3:
-                cout << "Ubrania";
-                break;
-        }
-    }
-    cout << endl << endl;
-
-    cout << "Powrot do  Menu Glownego: 5" << endl;
-
-    cin >> mode;
-
-    switch (mode) {
-        case 1:
-            mode = 5;
-            break;
-
-        case 2:
-            mode = 6;
-            break;
-
-        case 3:
-            mode = 13;
-            break;
-
-        case 4:
-            mode = 18;
-            break;
-
-        case 5:
-            mode = NomenFilesNum + 1;
-            break;
-    }
-
-    screen_cleaner(i, 70);
-
-    return mode;
-}
-
-int Essen(int i, int mode) {
-    cout << "Wybierz zakres slownictwa (Jedzenie) :";
-    for (i = 0; i < 5; i++) {
-        cout << endl << i + 1 << ") ";
-        switch (i) {
-            case 0:
-                cout << "Ogolne";
-                break;
-
-            case 1:
-                cout << "Warzywa";
-                break;
-
-            case 2:
-                cout << "Owoce";
-                break;
-
-            case 3:
-                cout << "Mieso";
-                break;
-
-            case 4:
-                cout << "Slodycze";
-                break;
-        }
-    }
-    cout << endl << endl;
-
-    cout << "Powrot do  Menu Glownego: 6" << endl;
-
-    cin >> mode;
-
-    switch (mode) {
-        case 1:
-            mode = 7;
-            break;
-
-        case 2:
-            mode = 8;
-            break;
-
-        case 3:
-            mode = 9;
-            break;
-
-        case 4:
-            mode = 10;
-            break;
-
-        case 5:
-            mode = 11;
-            break;
-
-        case 6:
-            mode = NomenFilesNum + 1;
-            break;
-    }
-
-    screen_cleaner(i, 70);
-
-    return mode;
 }
 
 void Verb_options(int i, int j, int mode, bool *opt) {
