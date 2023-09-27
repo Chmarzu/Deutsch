@@ -60,22 +60,27 @@ int main() {
 
         switch (mode) {
         case 1:
+            mode = 0;
             Nomen(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
-       case 2:
+        case 2:
+            mode = 0;
             Verb(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
         case 3:
+            mode = 0;
             Adjektiv(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
         case 4:
+            mode = 0;
             Praposition(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
         case 5:
+            mode = 0;
             Rektion(i, j, mode, maxnum, &randy[0], source, answer, ans);
             break;
 
@@ -96,87 +101,89 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
     bool opt[4] = {false, true, false, false}; /*visibility of word's data*/
 
     do {
-        do {
-            cout << endl << "Ustawienia: 0" << endl << endl;
+        if (mode != 2) {
+            do {
+                cout << endl << "Ustawienia: 0" << endl << endl;
 
-            cout << "Wybierz zakres slownictwa:";
-            for (i = 0; i < NomenMainOpt; i++) {
-            cout << endl << i + 1 << ") ";
-                switch (i) {
-                    case 0:
-                        cout << "Wszystko";
-                        break;
+                cout << "Wybierz zakres slownictwa:";
+                for (i = 0; i < NomenMainOpt; i++) {
+                cout << endl << i + 1 << ") ";
+                    switch (i) {
+                        case 0:
+                            cout << "Wszystko";
+                            break;
 
-                    case 1:
-                        cout << "Kartka pocztowa";
-                        break;
+                        case 1:
+                            cout << "Kartka pocztowa";
+                            break;
 
-                    case 2:
-                        cout << "Ludzie";
-                        break;
+                        case 2:
+                            cout << "Ludzie";
+                            break;
 
-                    case 3:
-                        cout << "Rodzina";
-                        break;
+                        case 3:
+                            cout << "Rodzina";
+                            break;
 
-                    case 4:
-                        cout << "Rzeczy (kategoria)";
-                        break;
+                        case 4:
+                            cout << "Rzeczy (kategoria)";
+                            break;
 
-                    case 5:
-                        cout << "Jedzenie (kategoria)";
-                        break;
+                        case 5:
+                            cout << "Jedzenie (kategoria)";
+                            break;
 
-                    case 6:
-                        cout << "Napoje";
-                        break;
+                        case 6:
+                            cout << "Napoje";
+                            break;
 
-                    case 7:
-                        cout << "Pomieszczenia";
-                        break;
+                        case 7:
+                            cout << "Pomieszczenia";
+                            break;
 
-                    case 8:
-                        cout << "Czesci ciala";
-                        break;
+                        case 8:
+                            cout << "Czesci ciala";
+                            break;
 
-                    case 9:
-                        cout << "Choroby";
-                        break;
+                        case 9:
+                            cout << "Choroby";
+                            break;
 
-                    case 10:
-                        cout << "Lekarstwa";
-                        break;
+                        case 10:
+                            cout << "Lekarstwa";
+                            break;
 
-                    case 11:
-                        cout << "Budynek";
-                        break;
+                        case 11:
+                            cout << "Budynek";
+                            break;
 
-                    case 12:
-                        cout << "Miasto";
-                        break;
+                        case 12:
+                            cout << "Miasto";
+                            break;
 
-                    case 13:
-                        cout << "Hobby";
-                        break;
+                        case 13:
+                            cout << "Hobby";
+                            break;
 
-                    case 14:
-                        cout << "Czas";
-                        break;
+                        case 14:
+                            cout << "Czas";
+                            break;
+                    }
                 }
-            }
-            cout << endl << endl;
+                cout << endl << endl;
 
-            cout << "Powrot do  Menu Glownego: " << NomenMainOpt + 1 << endl;
+                cout << "Powrot do  Menu Glownego: " << NomenMainOpt + 1 << endl;
 
-            cin >> mode;
+                cin >> mode;
 
-            screen_cleaner(i, 70);
+                screen_cleaner(i, 70);
 
-            if (!mode && mode != 5 && mode != 6)    //should possibly be changed so as to avoid adding more cases
-                Nomen_options(i, j, mode, &opt[0]);
-            else if (mode < 1 || mode > NomenMainOpt + 1)
-                cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
+                if (!mode && mode != 5 && mode != 6)    //should possibly be changed so as to avoid adding more cases
+                    Nomen_options(i, j, mode, &opt[0]);
+                else if (mode < 1 || mode > NomenMainOpt + 1)
+                    cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
             } while (mode < 1 || mode > NomenMainOpt + 1);
+        }
             cout << endl;
 
             if  (mode == NomenMainOpt + 1)
@@ -314,14 +321,15 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                 << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
                 << "Format wczytywania rodzajnikow: der - r, die - e, das - s, liczba mnoga - Pl." << endl << endl
                 << "Powrot do Menu Glownego: 0." << endl
-                << "Aby kontyunowac wprowadz: 1" << endl;
+                << "Aby kontyunowac wprowadz: 1" << endl
+                << "Aby ponowic losowanie slow: 2" << endl;
 
                 do {
                     cin >> mode;
 
-                    if (mode < 0 || mode > 1)
+                    if (mode < 0 || mode > 2)
                         cout << endl << "Bledna wartosc!" << endl << endl;
-                } while(mode < 0 || mode > 1);
+                } while(mode < 0 || mode > 2);
 
                 screen_cleaner(i, 70);
 
@@ -404,22 +412,24 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                                 fail_num++;
 
                                 if (fail_num < 2)
-                                    cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                                    cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl << "Ponowne losowanie slow: 2" << endl;
                                 else if (fail_num == 2)
-                                    cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                                    cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl << "Ponowne losowanie slow: 2" << endl;
                                 else
-                                    cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                                    cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne losowanie slow: 1" << endl;
 
                                 fail = false;
-                            } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                            } else cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne losowanie slow: 1" << endl;
 
                             cin >> mode;
+                            if (mode == 1 && (!fail_num || fail_num == 3))
+                                mode = 2;
 
-                            if (mode < 0 || mode > 1)
+                            if (mode < 0 || mode > 2)
                                 cout << endl << "Bledna wartosc!" << endl << endl;
 
                             screen_cleaner(i, 70);
-                        } while(mode && fail_num < FAIL_NUM + 1);
+                        } while(mode == 1 && fail_num < FAIL_NUM + 1);
                     }
 
                     fail_num = 0;
@@ -700,47 +710,49 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
     bool opt[5] = {true, false, false, false, false}; /*visibility of word's data*/
 
     do {
-        do {
-            cout << endl << "Ustawienia: 0" << endl << endl;
+        if (mode != 2) {
+            do {
+                cout << endl << "Ustawienia: 0" << endl << endl;
 
-            cout << "Wybierz zakres slownictwa:";
-            for (i = 0; i < VerbFilesNum; i++) {
-            cout << endl << i + 1 << ") ";
-                switch (i) {
-                    case 0:
-                        cout << "Wszystko";
-                        break;
+                cout << "Wybierz zakres slownictwa:";
+                for (i = 0; i < VerbFilesNum; i++) {
+                cout << endl << i + 1 << ") ";
+                    switch (i) {
+                        case 0:
+                            cout << "Wszystko";
+                            break;
 
-                    case 1:
-                        cout << "Czasowniki slabe";
-                        break;
+                        case 1:
+                            cout << "Czasowniki slabe";
+                            break;
 
-                    case 2:
-                        cout << "Czasowniki mocne";
-                        break;
+                        case 2:
+                            cout << "Czasowniki mocne";
+                            break;
 
-                    case 3:
-                        cout << "Czasowniki z sein";
-                        break;
+                        case 3:
+                            cout << "Czasowniki z sein";
+                            break;
 
-                    case 4:
-                        cout << "Formy podstawowe";
-                        break;
+                        case 4:
+                            cout << "Formy podstawowe";
+                            break;
+                    }
                 }
-            }
-            cout << endl << endl;
+                cout << endl << endl;
 
-            cout << "Powrot do  Menu Glownego: " << VerbFilesNum + 1 << endl;
+                cout << "Powrot do  Menu Glownego: " << VerbFilesNum + 1 << endl;
 
-            cin >> mode;
+                cin >> mode;
 
-            screen_cleaner(i, 70);
+                screen_cleaner(i, 70);
 
-            if (!mode)
-                Verb_options(i, j, mode, &opt[0]);
-            else if (mode < 1 || mode > VerbFilesNum + 1)
-                cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
+                if (!mode)
+                    Verb_options(i, j, mode, &opt[0]);
+                else if (mode < 1 || mode > VerbFilesNum + 1)
+                    cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
             } while (mode < 1 || mode > VerbFilesNum + 1);
+        }
             cout << endl;
 
             if  (mode == VerbFilesNum + 1)
@@ -847,7 +859,8 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
                     << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
                     << "Format wczytywania czasownikow pomocniczych: haben - h, sein - s." << endl << endl
                     << "Powrot do Menu Glownego: 0." << endl
-                    << "Aby kontyunowac wprowadz: 1" << endl;
+                    << "Aby kontyunowac wprowadz: 1" << endl
+                    << "Aby ponowic losowanie slow: 2" << endl;
 
                 for (i = 0; i < BUFF; i++)  //probably to be ereased
                     answer << buffer[i].infinitiv << " - " << buffer[i].transl << endl;
@@ -855,9 +868,9 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
                 do {
                         cin >> mode;
 
-                        if (mode < 0 || mode > 1)
+                        if (mode < 0 || mode > 2)
                             cout << endl << "Bledna wartosc!" << endl << endl;
-                    } while(mode < 0 || mode > 1);
+                    } while(mode < 0 || mode > 2);
 
                 screen_cleaner(i, 70);
 
@@ -956,27 +969,29 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
                             fail_num++;
 
                             if (fail_num < 2)
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl << "Ponowne losowanie slow: 2" << endl;
                             else if (fail_num == 2)
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl << "Ponowne losowanie slow: 2" << endl;
                             else
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne losowanie slow: 1" << endl;
 
                             fail = false;
-                        } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                        } else cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne losowanie slow: 1" << endl;
 
                         cin >> mode;
+                        if (mode == 1 && (!fail_num || fail_num == 3))
+                            mode = 2;
 
-                        if (mode < 0 || mode > 1)
+                        if (mode < 0 || mode > 2)
                             cout << endl << "Bledna wartosc!" << endl << endl;
 
                         screen_cleaner(i, 70);
-                    } while(mode && fail_num < FAIL_NUM + 1);
+                    } while(mode == 1 && fail_num < FAIL_NUM + 1);
                 }
 
                 fail_num = 0;
                 if (rand_file)
-                        rand_file = false;
+                    rand_file = false;
 
                 source.close();
             }
@@ -1070,39 +1085,41 @@ void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bo
     bool opt[2] = {true, false}; /*visibility of word's data*/
 
     do {
-        do {
-            cout << endl << "Ustawienia: 0" << endl << endl;
+        if (mode != 2) {
+            do {
+                cout << endl << "Ustawienia: 0" << endl << endl;
 
-            cout << "Wybierz zakres slownictwa:";
-            for (i = 0; i < AdjektivFilesNum; i++) {
-            cout << endl << i + 1 << ") ";
-                switch (i) {
-                    case 0:
-                        cout << "Wszystko";
-                        break;
+                cout << "Wybierz zakres slownictwa:";
+                for (i = 0; i < AdjektivFilesNum; i++) {
+                cout << endl << i + 1 << ") ";
+                    switch (i) {
+                        case 0:
+                            cout << "Wszystko";
+                            break;
 
-                    case 1:
-                        cout << "Stan cywilny";
-                        break;
+                        case 1:
+                            cout << "Stan cywilny";
+                            break;
 
-                    case 2:
-                        cout << "Jedzenie";
-                        break;
+                        case 2:
+                            cout << "Jedzenie";
+                            break;
+                    }
                 }
-            }
-            cout << endl << endl;
+                cout << endl << endl;
 
-            cout << "Powrot do  Menu Glownego: " << AdjektivFilesNum + 1 << endl;
+                cout << "Powrot do  Menu Glownego: " << AdjektivFilesNum + 1 << endl;
 
-            cin >> mode;
+                cin >> mode;
 
-            screen_cleaner(i, 70);
+                screen_cleaner(i, 70);
 
-            if (!mode)
-                Adjektiv_options(i, j, mode, &opt[0]);
-            else if (mode < 1 || mode > AdjektivFilesNum + 1)
-                cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
+                if (!mode)
+                    Adjektiv_options(i, j, mode, &opt[0]);
+                else if (mode < 1 || mode > AdjektivFilesNum + 1)
+                    cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
             } while (mode < 1 || mode > AdjektivFilesNum + 1);
+        }
             cout << endl;
 
             if  (mode == AdjektivFilesNum + 1)
@@ -1184,14 +1201,15 @@ void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bo
                     cout << "W pliku \"program\" znajduja sie przygotowane zadania." << endl
                     << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl << endl
                     << "Powrot do Menu Glownego: 0." << endl
-                    << "Aby kontyunowac wprowadz: 1" << endl;
+                    << "Aby kontyunowac wprowadz: 1" << endl
+                    << "Aby ponowic losowanie slow: 2" << endl;
 
                 do {
                         cin >> mode;
 
-                        if (mode < 0 || mode > 1)
+                        if (mode < 0 || mode > 2)
                             cout << endl << "Bledna wartosc!" << endl << endl;
-                    } while(mode < 0 || mode > 1);
+                    } while(mode < 0 || mode > 2);
 
                 screen_cleaner(i, 70);
 
@@ -1242,22 +1260,24 @@ void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bo
                             fail_num++;
 
                             if (fail_num < 2)
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl << "Ponowne losowanie slow: 2" << endl;
                             else if (fail_num == 2)
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl << "Ponowne losowanie slow: 2" << endl;
                             else
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne losowanie slow: 1" << endl;
 
                             fail = false;
-                        } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                        } else cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne losowanie slow: 1" << endl;
 
                         cin >> mode;
+                        if (mode == 1 && (!fail_num || fail_num == 3))
+                            mode = 2;
 
-                        if (mode < 0 || mode > 1)
+                        if (mode < 0 || mode > 2)
                             cout << endl << "Bledna wartosc!" << endl << endl;
 
                         screen_cleaner(i, 70);
-                    } while(mode && fail_num < FAIL_NUM + 1);
+                    } while(mode == 1 && fail_num < FAIL_NUM + 1);
                 }
 
                 fail_num = 0;
@@ -1327,43 +1347,45 @@ void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num,
     bool opt[3] = {true, false, false}; /*visibility of word's data*/
 
     do {
-        do {
-            cout << endl << "Ustawienia: 0" << endl << endl;
+        if (mode != 2) {
+            do {
+                cout << endl << "Ustawienia: 0" << endl << endl;
 
-            cout << "Wybierz zakres slownictwa:";
-            for (i = 0; i < 4; i++) {
-            cout << endl << i + 1 << ") ";
-                switch (i) {
-                    case 0:
-                        cout << "Wszystko";
-                        break;
+                cout << "Wybierz zakres slownictwa:";
+                for (i = 0; i < 4; i++) {
+                cout << endl << i + 1 << ") ";
+                    switch (i) {
+                        case 0:
+                            cout << "Wszystko";
+                            break;
 
-                    case 1:
-                        cout << "Dativ";
-                        break;
+                        case 1:
+                            cout << "Dativ";
+                            break;
 
-                    case 2:
-                        cout << "Akkusativ";
-                        break;
+                        case 2:
+                            cout << "Akkusativ";
+                            break;
 
-                    case 3:
-                        cout << "Dativ/Akkusativ";
-                        break;
+                        case 3:
+                            cout << "Dativ/Akkusativ";
+                            break;
+                    }
                 }
-            }
-            cout << endl << endl;
+                cout << endl << endl;
 
-            cout << "Powrot do  Menu Glownego: " << 5 << endl;
+                cout << "Powrot do  Menu Glownego: " << 5 << endl;
 
-            cin >> mode;
+                cin >> mode;
 
-            screen_cleaner(i, 70);
+                screen_cleaner(i, 70);
 
-            if (!mode)    //should possibly be changed so as to avoid adding more cases
-                Praposition_options(i, j, mode, &opt[0]);
-            else if (mode < 1 || mode > 5)
-                cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
-        } while (mode < 1 || mode > 5);
+                if (!mode)    //should possibly be changed so as to avoid adding more cases
+                    Praposition_options(i, j, mode, &opt[0]);
+                else if (mode < 1 || mode > 5)
+                    cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
+            } while (mode < 1 || mode > 5);
+        }
         cout << endl;
 
         if  (mode == 5)
@@ -1454,14 +1476,15 @@ void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num,
                 << "Tam tez podaj brakujace informacje we wskazanych miejscach." << endl
                 << "Format wczytywania przypadków: D lub A." << endl << endl
                 << "Powrot do Menu Glownego: 0." << endl
-                << "Aby kontyunowac wprowadz: 1" << endl;
+                << "Aby kontyunowac wprowadz: 1" << endl
+                << "Aby ponowic losowanie slow: 2" << endl;
 
                 do {
                     cin >> mode;
 
-                    if (mode < 0 || mode > 1)
+                    if (mode < 0 || mode > 2)
                         cout << endl << "Bledna wartosc!" << endl << endl;
-                } while(mode < 0 || mode > 1);
+                } while(mode < 0 || mode > 2);
 
                 screen_cleaner(i, 70);
 
@@ -1528,22 +1551,24 @@ void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num,
                             fail_num++;
 
                             if (fail_num < 2)
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne sprawdzenie: 1" << endl << "Ponowne losowanie slow: 2" << endl;
                             else if (fail_num == 2)
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Prawidlowe odpowiedzi: 1" << endl << "Ponowne losowanie slow: 2" << endl;
                             else
-                                cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                                cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne losowanie slow: 1" << endl;
 
                             fail = false;
-                        } else cout << endl << "Powrot do Menu Glownego: 0" << endl;
+                        } else cout << endl << "Powrot do Menu Glownego: 0" << endl << "Ponowne losowanie slow: 1" << endl;
 
                         cin >> mode;
+                        if (mode == 1 && (!fail_num || fail_num == 3))
+                            mode = 2;
 
-                        if (mode < 0 || mode > 1)
+                        if (mode < 0 || mode > 2)
                             cout << endl << "Bledna wartosc!" << endl << endl;
 
                         screen_cleaner(i, 70);
-                    } while(mode && fail_num < FAIL_NUM + 1);
+                    } while(mode == 1 && fail_num < FAIL_NUM + 1);
                 }
 
                 fail_num = 0;
