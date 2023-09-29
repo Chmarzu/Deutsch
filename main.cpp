@@ -7,7 +7,7 @@
 
 #define BUFF 5
 #define NomenFilesNum 23 //number of files for function Nomen + 1
-#define NomenMainOpt 16 //options in main menu in Nomen
+#define NomenMainOpt 13 //options in main menu in Nomen
 #define VerbFilesNum 5  //number of files for function Verb + 1
 #define AdjektivFilesNum 3  //number of files for function Adjektiv + 1
 #define FAIL_NUM 2  //number of approved attempts
@@ -17,6 +17,7 @@ using namespace std;
 void Nomen(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans);
 int Sachen(int i, int mode);
 int Essen(int i, int mode);
+int Gebaude(int i, int mode);
 void Nomen_options(int i, int j, int mode, bool *opt);
 void Nomen_file_opener(int &mode, fstream &source);
 
@@ -112,63 +113,51 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, int file_num, short f
                             cout << "Wszystko";
                             break;
 
-                        case 1:
-                            cout << "Kartka pocztowa";
-                            break;
-
-                        case 2:
-                            cout << "Ludzie";
-                            break;
-
-                        case 3:
-                            cout << "Rodzina";
-                            break;
-
-                        case 4:
+                        case 1: //111
                             cout << "Rzeczy (kategoria)";
                             break;
 
-                        case 5:
+                        case 2: //111
                             cout << "Jedzenie (kategoria)";
                             break;
 
-                        case 6:
-                            cout << "Napoje";
+                        case 3: //111
+                            cout << "Budynek (kategoria)";
                             break;
 
-                        case 7:
-                            cout << "Pomieszczenia";
+                        case 4: //111
+                            cout << "Kartka pocztowa";
                             break;
 
-                        case 8:
+                        case 5: //111
+                            cout << "Ludzie";
+                            break;
+
+                        case 6: //111
+                            cout << "Rodzina";
+                            break;
+
+                        case 7: //111
                             cout << "Czesci ciala";
                             break;
 
-                        case 9:
+                        case 8: //111
                             cout << "Choroby";
                             break;
 
-                        case 10:
+                        case 9: //111
                             cout << "Lekarstwa";
                             break;
 
-                        case 11:
-                            cout << "Budynek";
-                            break;
-
-                        case 12:
-                            cout << "Miasto";
-                            break;
-
-                        case 13:
+                        case 10: //111
                             cout << "Hobby";
                             break;
 
-                        case 14:
+                        case 11:
                             cout << "Czas";
                             break;
 
-                        case 15:
+                        case 12:
                             cout << "Natura";
                             break;
                     }
@@ -187,64 +176,66 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, int file_num, short f
                 else if (mode < 1 || mode > NomenMainOpt + 1)
                     cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
             } while (mode < 1 || mode > NomenMainOpt + 1);
-        }
+        } else
+            mode = file_num;
 
         cout << endl;
-
-        if (mode == 2)
-            mode = file_num;
 
         if (mode == NomenMainOpt + 1)
             finished = false;
         else {
-            if (mode == 1)
-                rand_file = true;
-            else if (mode == 5)
-                mode = Sachen(i, mode);
-            else if (mode == 6)
-                mode = Essen(i, mode);
-            else {
-                switch (mode) {
-                    case 7:
-                        mode = 12;
-                        break;
+            switch (mode) {
+                case 1:
+                    rand_file = true;
+                    break;
 
-                    case 8:
-                        mode = 14;
-                        break;
+                case 2:
+                    mode = Sachen(i, mode);
+                    break;
 
-                    case 9:
-                        mode = 15;
-                        break;
+                case 3:
+                    mode = Essen(i, mode);
+                    break;
 
-                    case 10:
-                        mode = 16;
-                        break;
+                case 4:
+                    mode = Gebaude(i, mode);
+                    break;
 
-                    case 11:
-                        mode = 17;
-                        break;
+                case 5:
+                    mode = 15;
+                    break;
 
-                    case 12:
-                        mode = 19;
-                        break;
+                case 6:
+                    mode = 16;
+                    break;
 
-                    case 13:
-                        mode = 20;
-                        break;
+                case 7:
+                    mode = 17;
+                    break;
 
-                    case 14:
-                        mode = 21;
-                        break;
+                case 8:
+                    mode = 18;
+                    break;
 
-                    case 15:
-                        mode = 22;
-                        break;
+                case 9:
+                    mode = 19;
+                    break;
 
-                    case 16:
-                        mode = 23;
-                        break;
-                }
+                case 10:
+                    mode = 20;
+                    break;
+
+                case 11:
+                    mode = 21;
+                    break;
+
+                case 12:
+                    mode = 22;
+                    break;
+
+                case 13:
+                    mode = 23;
+                    break;
             }
 
             Nomen_file_opener(mode, source);
@@ -490,19 +481,19 @@ int Sachen(int i, int mode) {
 
     switch (mode) {
         case 1:
-            mode = 5;
+            mode = 2;
             break;
 
         case 2:
-            mode = 6;
+            mode = 3;
             break;
 
         case 3:
-            mode = 13;
+            mode = 4;
             break;
 
         case 4:
-            mode = 18;
+            mode = 5;
             break;
 
         case 5:
@@ -517,7 +508,7 @@ int Sachen(int i, int mode) {
 
 int Essen(int i, int mode) {
     cout << "Wybierz zakres slownictwa (Jedzenie) :";
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 6; i++) {
         cout << endl << i + 1 << ") ";
         switch (i) {
             case 0:
@@ -539,36 +530,91 @@ int Essen(int i, int mode) {
             case 4:
                 cout << "Slodycze";
                 break;
+
+            case 5:
+                cout << "Napoje";
+                break;
         }
     }
 
     cout << endl << endl;
-    cout << "Powrot do  Menu Rzeczownik: 6" << endl;
+    cout << "Powrot do  Menu Rzeczownik: 7" << endl;
 
     cin >> mode;
 
     switch (mode) {
         case 1:
-            mode = 7;
+            mode = 6;
             break;
 
         case 2:
-            mode = 8;
+            mode = 7;
             break;
 
         case 3:
-            mode = 9;
+            mode = 8;
             break;
 
         case 4:
-            mode = 10;
+            mode = 9;
             break;
 
         case 5:
-            mode = 11;
+            mode = 10;
             break;
 
         case 6:
+            mode = 11;
+            break;
+
+        case 7:
+            mode = NomenFilesNum + 1;
+            break;
+    }
+
+    screen_cleaner(i, 70);
+
+    return mode;
+}
+
+int Gebaude(int i, int mode) {
+    cout << "Wybierz zakres slownictwa (Budynek) :";
+    for (i = 0; i < 3; i++) {
+        cout << endl << i + 1 << ") ";
+        switch (i) {
+            case 0:
+                cout << "Ogolne";
+                break;
+
+            case 1:
+                cout << "Pomieszczenia";
+                break;
+
+            case 2:
+                cout << "Miasto";
+                break;
+        }
+    }
+
+    cout << endl << endl;
+    cout << "Powrot do  Menu Rzeczownik: 4" << endl;
+
+    cin >> mode;
+
+    switch (mode) {
+        case 1:
+            mode = 12;
+            break;
+
+        case 2:
+            mode = 13;
+            break;
+
+        case 3:
+            mode = 14;
+            break;
+
+        case 4:
             mode = NomenFilesNum + 1;
             break;
     }
@@ -637,79 +683,79 @@ void Nomen_options(int i, int j, int mode, bool *opt) {
 void Nomen_file_opener(int &mode, fstream &source) {
     switch (mode) {
         case 2:
-            source.open("data\\Nomen\\Postkarte.txt",ios::in);
-            break;
-
-        case 3:
-            source.open("data\\Nomen\\Leute.txt",ios::in);
-            break;
-
-        case 4:
-            source.open("data\\Nomen\\Familie.txt",ios::in);
-            break;
-
-        case 5:
             source.open("data\\Nomen\\Sachen.txt",ios::in);
             break;
 
-        case 6:
+        case 3:
             source.open("data\\Nomen\\Möbel.txt",ios::in);
             break;
 
-        case 7:
-            source.open("data\\Nomen\\Essen.txt",ios::in);
-            break;
-
-        case 8:
-            source.open("data\\Nomen\\Gemüse.txt",ios::in);
-            break;
-
-        case 9:
-            source.open("data\\Nomen\\Obst.txt",ios::in);
-            break;
-
-        case 10:
-            source.open("data\\Nomen\\Fleisch.txt",ios::in);
-            break;
-
-        case 11:
-            source.open("data\\Nomen\\Süßigkeiten.txt",ios::in);
-            break;
-
-        case 12:
-            source.open("data\\Nomen\\Getränke.txt",ios::in);
-            break;
-
-        case 13:
+        case 4:
             source.open("data\\Nomen\\Geschirr.txt",ios::in);
             break;
 
-        case 14:
-            source.open("data\\Nomen\\Räume.txt",ios::in);
-            break;
-
-        case 15:
-            source.open("data\\Nomen\\Körper.txt",ios::in);
-            break;
-
-        case 16:
-            source.open("data\\Nomen\\Krankheit.txt",ios::in);
-            break;
-
-        case 17:
-            source.open("data\\Nomen\\Medikamenten.txt",ios::in);
-            break;
-
-        case 18:
+        case 5:
             source.open("data\\Nomen\\kleidung.txt",ios::in);
             break;
 
-        case 19:
+        case 6:
+            source.open("data\\Nomen\\Essen.txt",ios::in);
+            break;
+
+        case 7:
+            source.open("data\\Nomen\\Gemüse.txt",ios::in);
+            break;
+
+        case 8:
+            source.open("data\\Nomen\\Obst.txt",ios::in);
+            break;
+
+        case 9:
+            source.open("data\\Nomen\\Fleisch.txt",ios::in);
+            break;
+
+        case 10:
+            source.open("data\\Nomen\\Süßigkeiten.txt",ios::in);
+            break;
+
+        case 11:
+            source.open("data\\Nomen\\Getränke.txt",ios::in);
+            break;
+
+        case 12:
             source.open("data\\Nomen\\Gebäude.txt",ios::in);
             break;
 
-        case 20:
+        case 13:
+            source.open("data\\Nomen\\Räume.txt",ios::in);
+            break;
+
+        case 14:
             source.open("data\\Nomen\\Stadt.txt",ios::in);
+            break;
+
+        case 15:
+            source.open("data\\Nomen\\Postkarte.txt",ios::in);
+            break;
+
+        case 16:
+            source.open("data\\Nomen\\Leute.txt",ios::in);
+            break;
+
+        case 17:
+            source.open("data\\Nomen\\Familie.txt",ios::in);
+            break;
+
+        case 18:
+            source.open("data\\Nomen\\Körper.txt",ios::in);
+            break;
+
+        case 19:
+            source.open("data\\Nomen\\Krankheit.txt",ios::in);
+            break;
+
+        case 20:
+            source.open("data\\Nomen\\Medikamenten.txt",ios::in);
             break;
 
         case 21:
@@ -776,11 +822,10 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, int file_num, short fa
                 else if (mode < 1 || mode > VerbFilesNum + 1)
                     cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
             } while (mode < 1 || mode > VerbFilesNum + 1);
-        }
-            cout << endl;
+        } else
+            mode = file_num;
 
-            if (mode == 2)
-                mode = file_num;
+        cout << endl;
 
             if  (mode == VerbFilesNum + 1)
                 finished = false;
@@ -1147,11 +1192,10 @@ void Adjektiv(int i, int j, int mode, int maxnum, int *randy, int file_num, shor
                 else if (mode < 1 || mode > AdjektivFilesNum + 1)
                     cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
             } while (mode < 1 || mode > AdjektivFilesNum + 1);
-        }
-            cout << endl;
+        } else
+            mode = file_num;
 
-            if (mode == 2)
-                mode = file_num;
+        cout << endl;
 
             if  (mode == AdjektivFilesNum + 1)
                 finished = false;
@@ -1417,11 +1461,10 @@ void Praposition(int i, int j, int mode, int maxnum, int *randy, int file_num, s
                 else if (mode < 1 || mode > 5)
                     cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
             } while (mode < 1 || mode > 5);
-        }
-        cout << endl;
+        } else
+            mode = file_num;
 
-            if (mode == 2)
-                mode = file_num;
+        cout << endl;
 
         if  (mode == 5)
                 finished = false;
