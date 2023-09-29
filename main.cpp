@@ -6,40 +6,41 @@
 #include <windows.h>
 
 #define BUFF 5
-#define NomenFilesNum 22 //number of files for function Nomen + 1
-#define NomenMainOpt 15 //options in main menu in Nomen
+#define NomenFilesNum 23 //number of files for function Nomen + 1
+#define NomenMainOpt 16 //options in main menu in Nomen
 #define VerbFilesNum 5  //number of files for function Verb + 1
 #define AdjektivFilesNum 3  //number of files for function Adjektiv + 1
 #define FAIL_NUM 2  //number of approved attempts
 
 using namespace std;
 
-void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans);
+void Nomen(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans);
 int Sachen(int i, int mode);
 int Essen(int i, int mode);
 void Nomen_options(int i, int j, int mode, bool *opt);
 void Nomen_file_opener(int &mode, fstream &source);
 
-void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
+void Verb(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
 void Verb_options(int i, int j, int mode, bool *opt);
 void Verb_file_opener(int &mode, fstream &source);
 
-void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
+void Adjektiv(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
 void Adjektiv_options(int i, int j, int mode, bool *opt);
 void Adjektiv_file_opener(int &mode, fstream &source);
 
-void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
+void Praposition(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
 void Praposition_options(int i, int j, int mode, bool *opt);
 void Praposition_file_opener(int &mode, fstream &source);
 
-void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans);
+void Rektion(int i, int j, int mode, int maxnum, int *randy, int file_num, fstream &source, fstream &answer, string ans);
 
 int file_manager(int maxnum, int record_size, fstream &source, string ans);
 void screen_cleaner(int i, int line);
 
 int main() {
     srand (time(NULL));
-    int i, j, mode /*control over flow of program*/, maxnum /*amount of words from a file*/, randy[BUFF] /*array of randomly generated words (indexes)*/;
+    int i, j, mode /*control over flow of program*/, maxnum /*amount of words from a file*/,
+    randy[BUFF] /*array of randomly generated words (indexes)*/, file_num /*stores number of selected file*/;
     short fail_num;
     bool finished = true /*indicates if a mode can be finished*/, rand_file = false /*for randomised file source*/, fail = false /*mistake in answers indicator*/;
     fstream source /*file from database*/, answer /*UI file*/;
@@ -61,27 +62,27 @@ int main() {
         switch (mode) {
         case 1:
             mode = 0;
-            Nomen(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
+            Nomen(i, j, mode, maxnum, &randy[0], file_num, fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
         case 2:
             mode = 0;
-            Verb(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
+            Verb(i, j, mode, maxnum, &randy[0], file_num, fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
         case 3:
             mode = 0;
-            Adjektiv(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
+            Adjektiv(i, j, mode, maxnum, &randy[0], file_num, fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
         case 4:
             mode = 0;
-            Praposition(i, j, mode, maxnum, &randy[0], fail_num, finished, rand_file, fail, source, answer, ans);
+            Praposition(i, j, mode, maxnum, &randy[0], file_num, fail_num, finished, rand_file, fail, source, answer, ans);
             break;
 
         case 5:
             mode = 0;
-            Rektion(i, j, mode, maxnum, &randy[0], source, answer, ans);
+            Rektion(i, j, mode, maxnum, &randy[0], file_num, source, answer, ans);
             break;
 
         case 6:
@@ -94,7 +95,7 @@ int main() {
     return 0;
 }
 
-void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
+void Nomen(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
     struct word {   //info about word
         string article, noun_sg, noun_pl, transl;
     } buffer[BUFF];
@@ -168,6 +169,10 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
                         case 14:
                             cout << "Czas";
                             break;
+
+                        case 15:
+                            cout << "Natura";
+                            break;
                     }
                 }
                 cout << endl << endl;
@@ -176,6 +181,7 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
 
                 cin >> mode;
 
+                file_num = mode;
                 screen_cleaner(i, 70);
 
                 if (!mode && mode != 5 && mode != 6)    //should possibly be changed so as to avoid adding more cases
@@ -185,6 +191,9 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
             } while (mode < 1 || mode > NomenMainOpt + 1);
         }
             cout << endl;
+
+            if (mode == 2)
+                mode = file_num;
 
             if  (mode == NomenMainOpt + 1)
                 finished = false;
@@ -231,6 +240,10 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool 
 
                         case 15:
                             mode = 22;
+                            break;
+
+                        case 16:
+                            mode = 23;
                             break;
                     }
                 }
@@ -700,10 +713,14 @@ void Nomen_file_opener(int &mode, fstream &source) {
         case 22:
             source.open("data\\Nomen\\Zeit.txt",ios::in);
             break;
+
+        case 23:
+            source.open("data\\Nomen\\Natur.txt",ios::in);
+            break;
     }
 }
 
-void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
+void Verb(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail, fstream &source, fstream &answer, string ans) {
     struct word {   //info about word
         string infinitiv, imperfekt, partizip_perfekt, hilfsverb, transl;
     } buffer[BUFF];
@@ -745,6 +762,7 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
 
                 cin >> mode;
 
+                file_num = mode;
                 screen_cleaner(i, 70);
 
                 if (!mode)
@@ -754,6 +772,9 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool f
             } while (mode < 1 || mode > VerbFilesNum + 1);
         }
             cout << endl;
+
+            if (mode == 2)
+                mode = file_num;
 
             if  (mode == VerbFilesNum + 1)
                 finished = false;
@@ -1078,7 +1099,7 @@ void Verb_file_opener(int &mode, fstream &source) {
     }
 }
 
-void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans) {
+void Adjektiv(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans) {
     struct word {   //info about word
         string adjektiv, transl;
     } buffer[BUFF];
@@ -1112,6 +1133,7 @@ void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bo
 
                 cin >> mode;
 
+                file_num = mode;
                 screen_cleaner(i, 70);
 
                 if (!mode)
@@ -1121,6 +1143,9 @@ void Adjektiv(int i, int j, int mode, int maxnum, int *randy, short fail_num, bo
             } while (mode < 1 || mode > AdjektivFilesNum + 1);
         }
             cout << endl;
+
+            if (mode == 2)
+                mode = file_num;
 
             if  (mode == AdjektivFilesNum + 1)
                 finished = false;
@@ -1340,7 +1365,7 @@ void Adjektiv_file_opener(int &mode, fstream &source) {
     }
 }
 
-void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans) {
+void Praposition(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans) {
     struct word {   //info about word
         string prap, kasus, transl;
     } buffer[BUFF];
@@ -1378,6 +1403,7 @@ void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num,
 
                 cin >> mode;
 
+                file_num = mode;
                 screen_cleaner(i, 70);
 
                 if (!mode)    //should possibly be changed so as to avoid adding more cases
@@ -1387,6 +1413,9 @@ void Praposition(int i, int j, int mode, int maxnum, int *randy, short fail_num,
             } while (mode < 1 || mode > 5);
         }
         cout << endl;
+
+            if (mode == 2)
+                mode = file_num;
 
         if  (mode == 5)
                 finished = false;
@@ -1642,7 +1671,7 @@ void Praposition_file_opener(int &mode, fstream &source) {
     }
 }
 
-void Rektion(int i, int j, int mode, int maxnum, int *randy, fstream &source, fstream &answer, string ans) {
+void Rektion(int i, int j, int mode, int maxnum, int *randy, int file_num, fstream &source, fstream &answer, string ans) {
     struct word {
         string reflexivpronomen, verb, praposition, kasus, transl;
     } buffer[BUFF];
