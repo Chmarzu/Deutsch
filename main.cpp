@@ -8,7 +8,8 @@
 #define BUFF 5
 #define NomenFilesNum 23 //number of files for function Nomen + 1
 #define NomenMainOpt 13 //options in main menu in Nomen
-#define VerbFilesNum 5  //number of files for function Verb + 1
+#define VerbFilesNum 8  //number of files for function Verb + 1
+#define VerbMainOpt 5 //options in main menu in Verb
 #define AdjektivFilesNum 3  //number of files for function Adjektiv + 1
 #define FAIL_NUM 2  //number of approved attempts
 
@@ -22,6 +23,7 @@ void Nomen_options(int i, int j, int mode, bool *opt);
 void Nomen_file_opener(int &mode, fstream &source);
 
 void Verb(int i, int j, int mode, int maxnum, int *randy, int file_num, short fail_num, bool finished, bool rand_file, bool fail,  fstream &source, fstream &answer, string ans);
+int Grundformen(int i, int mode);
 void Verb_options(int i, int j, int mode, bool *opt);
 void Verb_file_opener(int &mode, fstream &source);
 
@@ -113,43 +115,43 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, int file_num, short f
                             cout << "Wszystko";
                             break;
 
-                        case 1: //111
+                        case 1:
                             cout << "Rzeczy (kategoria)";
                             break;
 
-                        case 2: //111
+                        case 2:
                             cout << "Jedzenie (kategoria)";
                             break;
 
-                        case 3: //111
+                        case 3:
                             cout << "Budynek (kategoria)";
                             break;
 
-                        case 4: //111
+                        case 4:
                             cout << "Kartka pocztowa";
                             break;
 
-                        case 5: //111
+                        case 5:
                             cout << "Ludzie";
                             break;
 
-                        case 6: //111
+                        case 6:
                             cout << "Rodzina";
                             break;
 
-                        case 7: //111
+                        case 7:
                             cout << "Czesci ciala";
                             break;
 
-                        case 8: //111
+                        case 8:
                             cout << "Choroby";
                             break;
 
-                        case 9: //111
+                        case 9:
                             cout << "Lekarstwa";
                             break;
 
-                        case 10: //111
+                        case 10:
                             cout << "Hobby";
                             break;
 
@@ -238,7 +240,8 @@ void Nomen(int i, int j, int mode, int maxnum, int *randy, int file_num, short f
                     break;
             }
 
-            Nomen_file_opener(mode, source);
+            if (mode != 1)
+                Nomen_file_opener(mode, source);
 
 
             if (mode != NomenFilesNum + 1) {
@@ -784,7 +787,7 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, int file_num, short fa
                 cout << endl << "Ustawienia: 0" << endl << endl;
 
                 cout << "Wybierz zakres slownictwa:";
-                for (i = 0; i < VerbFilesNum; i++) {
+                for (i = 0; i < VerbMainOpt; i++) {
                 cout << endl << i + 1 << ") ";
                     switch (i) {
                         case 0:
@@ -804,13 +807,13 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, int file_num, short fa
                             break;
 
                         case 4:
-                            cout << "Formy podstawowe";
+                            cout << "Formy podstawowe (Kategoria)";
                             break;
                     }
                 }
                 cout << endl << endl;
 
-                cout << "Powrot do  Menu Glownego: " << VerbFilesNum + 1 << endl;
+                cout << "Powrot do  Menu Glownego: " << VerbMainOpt + 1 << endl;
 
                 cin >> mode;
 
@@ -819,21 +822,25 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, int file_num, short fa
 
                 if (!mode)
                     Verb_options(i, j, mode, &opt[0]);
-                else if (mode < 1 || mode > VerbFilesNum + 1)
+                else if (mode < 1 || mode > VerbMainOpt + 1)
                     cout << endl << endl << "Niewlasciwa liczba!" << endl << endl;
-            } while (mode < 1 || mode > VerbFilesNum + 1);
+            } while (mode < 1 || mode > VerbMainOpt + 1);
         } else
             mode = file_num;
 
         cout << endl;
 
-            if  (mode == VerbFilesNum + 1)
+            if (mode == VerbMainOpt + 1)
                 finished = false;
             else {
                 if (mode == 1)
                     rand_file = true;
-                else
+                else {
+                    if (mode == 5)
+                        mode = Grundformen(i, mode);
+
                     Verb_file_opener(mode, source);
+                }
 
                 if (!rand_file)     //for non-random file
                     maxnum = file_manager(maxnum, 7, source, ans);
@@ -1070,6 +1077,53 @@ void Verb(int i, int j, int mode, int maxnum, int *randy, int file_num, short fa
         } while (finished);
 }
 
+int Grundformen(int i, int mode) {
+    cout << "Wybierz zakres slownictwa (Formy podstawowe) :";
+    for (i = 0; i < 3; i++) {
+        cout << endl << i + 1 << ") ";
+        switch (i) {
+            case 0:
+                cout << "Strona 1";
+                break;
+
+            case 1:
+                cout << "Strona 2";
+                break;
+
+            case 2:
+                cout << "Strona 3";
+                break;
+        }
+    }
+
+    cout << endl << endl;
+    cout << "Powrot do  Menu Rzeczownik: 4" << endl;
+
+    cin >> mode;
+
+    switch (mode) {
+        case 1:
+            mode = 5;
+            break;
+
+        case 2:
+            mode = 6;
+            break;
+
+        case 3:
+            mode = 7;
+            break;
+
+        case 5:
+            mode = NomenFilesNum + 1;
+            break;
+    }
+
+    screen_cleaner(i, 70);
+
+    return mode;
+}
+
 void Verb_options(int i, int j, int mode, bool *opt) {
     short num;
 
@@ -1145,7 +1199,15 @@ void Verb_file_opener(int &mode, fstream &source) {
             break;
 
         case 5:
-            source.open("data\\Verb\\Grundformen.txt",ios::in);
+            source.open("data\\Verb\\Grundformen1.txt",ios::in);
+            break;
+
+        case 6:
+            source.open("data\\Verb\\Grundformen2.txt",ios::in);
+            break;
+
+        case 7:
+            source.open("data\\Verb\\Grundformen3.txt",ios::in);
             break;
     }
 }
